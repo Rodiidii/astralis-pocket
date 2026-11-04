@@ -2,15 +2,17 @@
 
 Atelier local de collection et de composition d’équipes pour **Honkai: Star Rail**, **Genshin Impact** et **Wuthering Waves**.
 
-## Démarrer
+## Utiliser Astralis comme une application
 
-Double-clique sur `Installer et lancer Astralis.bat`. Le lanceur détecte Python 3.10+ ou installe Python 3.14.10 dans ton profil Windows si nécessaire, puis démarre le site. Astralis utilise uniquement la bibliothèque standard de Python. `Lancer Astralis.bat` reste disponible pour les installations déjà configurées. Il faut garder le dossier complet ensemble et disposer d’une connexion Internet pour charger les bases communautaires et les illustrations.
+### Windows
 
-## Accès iPhone depuis n’importe où (hébergement gratuit)
+Double-clique sur `Installer et lancer Astralis.bat`. Le programme installe Python si nécessaire, démarre le moteur local, puis ouvre Astralis dans une fenêtre d’application sans barre d’adresse. Un raccourci **Astralis** est créé sur le Bureau. Microsoft Edge ou Google Chrome est requis pour afficher l’interface; les données personnelles restent sur ce PC.
 
-Le fichier `render.yaml` prépare un service web gratuit sur Render. Publie ce dossier dans un dépôt GitHub privé, connecte ce dépôt à Render et crée le service avec le Blueprint. Render demande de définir `ASTRALIS_PASSWORD` : choisis un mot de passe long. Le site le demandera avant d’afficher la moindre page. Sur iPhone, ouvre l’adresse HTTPS dans Safari puis choisis **Partager → Sur l’écran d’accueil**.
+### iPhone
 
-Les collections et réglages restent enregistrés localement dans le navigateur de chaque appareil; ils ne se synchronisent pas entre PC et iPhone. L’hébergement gratuit Render peut se mettre en veille après 15 minutes sans visite, puis prendre un moment à redémarrer. HoYoLAB reste connecté en mémoire uniquement et peut demander une reconnexion après un redémarrage. Ne publie jamais `assets/user` ni un cookie HoYoLAB.
+Pour utiliser Astralis sans laisser le PC allumé, il faut publier le moteur sur un hébergement gratuit. Le dépôt contient `render.yaml` pour créer le service Render et demande un mot de passe d’au moins 16 caractères. Une fois l’adresse HTTPS créée, ouvre-la dans Safari, touche **Partager → Sur l’écran d’accueil**, puis lance Astralis depuis sa nouvelle icône : l’app s’ouvre en plein écran, comme une application installée. iOS ne permet pas d’installer directement un `.exe` Windows; une app iPhone native signée exigerait une compilation Xcode sur Mac.
+
+Les collections et réglages restent enregistrés localement dans l’application de chaque appareil; ils ne se synchronisent pas automatiquement entre PC et iPhone. L’hébergement gratuit Render peut se mettre en veille après 15 minutes sans visite, puis prendre un moment à redémarrer. HoYoLAB reste connecté en mémoire uniquement et peut demander une reconnexion après un redémarrage. Ne publie jamais `assets/user` ni un cookie HoYoLAB.
 
 
 ## Mise à jour v74 · Genshin

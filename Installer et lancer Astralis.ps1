@@ -74,9 +74,18 @@ try {
     if ($env:ProgramFiles) { $edgePaths += (Join-Path $env:ProgramFiles "Microsoft/Edge/Application/msedge.exe") }
     if ($env:LOCALAPPDATA) { $edgePaths += (Join-Path $env:LOCALAPPDATA "Microsoft/Edge/Application/msedge.exe") }
     $edge = $edgePaths | Where-Object { Test-Path $_ } | Select-Object -First 1
-    if ($edge) { Start-Process -FilePath $edge -ArgumentList "--app=$url" }
-    else { Start-Process $url }
-    Write-Host "Astralis est lancé. Le raccourci est sur le Bureau."
+    if ($edge) {
+        Start-Process -FilePath $edge -ArgumentList "--app=$url"
+    } else {
+        $chromePaths = @()
+        if (${env:ProgramFiles(x86)}) { $chromePaths += (Join-Path ${env:ProgramFiles(x86)} "Google/Chrome/Application/chrome.exe") }
+        if ($env:ProgramFiles) { $chromePaths += (Join-Path $env:ProgramFiles "Google/Chrome/Application/chrome.exe") }
+        if ($env:LOCALAPPDATA) { $chromePaths += (Join-Path $env:LOCALAPPDATA "Google/Chrome/Application/chrome.exe") }
+        $chrome = $chromePaths | Where-Object { Test-Path $_ } | Select-Object -First 1
+        if (-not $chrome) { throw "Astralis a besoin de Microsoft Edge ou Google Chrome pour ouvrir sa fenêtre d’application." }
+        Start-Process -FilePath $chrome -ArgumentList "--app=$url"
+    }
+    Write-Host "Astralis est lancé dans sa fenêtre d’application. Le raccourci est sur le Bureau."
 } catch {
     Write-Host "Erreur : $($_.Exception.Message)" -ForegroundColor Red
     Read-Host "Appuie sur Entrée pour fermer"
