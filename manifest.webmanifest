@@ -1,0 +1,13 @@
+{
+  "name": "Astralis — Atelier de builds",
+  "short_name": "Astralis",
+  "description": "Collection, builds et outils pour Genshin Impact, Honkai: Star Rail et Wuthering Waves.",
+  "lang": "fr-FR",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#111113",
+  "theme_color": "#111113",
+  "icons": [{"src":"/assets/app-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}

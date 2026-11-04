@@ -1,0 +1,592 @@
+/* card-dopamine.css */
+/* Astralis v77 · effets "dopamine" des cartes spéciales + Légende Astrale Éternelle */
+@property --dp-a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+@keyframes dpSpin { to { --dp-a: 360deg; } }
+@keyframes dpRot { to { transform: rotate(360deg); } }
+@keyframes dpSweep { 0% { background-position: 130% 0; } 100% { background-position: -130% 0; } }
+@keyframes dpPulse { 0%,100% { opacity: .55; } 50% { opacity: 1; } }
+@keyframes dpFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes dpRise { 0% { transform: translateY(0) scale(.4); opacity: 0; } 15% { opacity: 1; } 100% { transform: translateY(-420px) scale(1); opacity: 0; } }
+@keyframes dpAurora { 0% { background-position: 0% 50%; transform: translateX(-4%); } 50% { background-position: 100% 50%; transform: translateX(4%); } 100% { background-position: 0% 50%; transform: translateX(-4%); } }
+@keyframes dpBurst { 0% { filter: brightness(3) saturate(0); transform: scale(.6) rotate(-4deg); } 55% { filter: brightness(1.4); transform: scale(1.08); } 100% { filter: none; transform: scale(1); } }
+@keyframes dpFlash { 0% { opacity: 0; } 12% { opacity: 1; } 100% { opacity: 0; } }
+
+/* ── Prisme holographique : Full Art, Légende, Groupe ── */
+.tcg-fx--holo { position: absolute; inset: 0; z-index: 6; border-radius: inherit; pointer-events: none; overflow: hidden; }
+.tcg-fx--holo::before { content: ""; position: absolute; inset: 0; mix-blend-mode: color-dodge; opacity: .5; transition: opacity .3s;
+  background: linear-gradient(115deg, transparent 18%, rgba(255,70,160,.55) 31%, rgba(255,226,80,.55) 40%, rgba(70,255,200,.55) 49%, rgba(90,150,255,.6) 58%, transparent 70%) 0 0 / 260% 100%; animation: dpSweep 4.6s ease-in-out infinite; }
+.tcg-fx--holo::after { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 3px; opacity: .9;
+  background: conic-gradient(from var(--dp-a), #ff5fb0, #ffe05a, #5fffd0, #6aa0ff, #c06bff, #ff5fb0); animation: dpSpin 5s linear infinite;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+.tcg-card:hover > .tcg-fx--holo::before { opacity: .95; }
+.tcg-card--full:hover, .tcg-card--group:hover { box-shadow: 0 0 34px rgba(160,120,255,.55), 0 0 70px rgba(80,200,255,.3), 0 14px 30px rgba(0,0,0,.5); }
+
+/* ── Gold : reflet métal + éclats ── */
+.tcg-card--gold { animation: dpFloat 5s ease-in-out infinite; box-shadow: 0 0 26px rgba(255,205,70,.5), 0 0 60px rgba(255,170,30,.28); }
+.tcg-card--gold .tcg-fx::after { content: ""; position: absolute; inset: 0; border-radius: inherit; mix-blend-mode: overlay; pointer-events: none;
+  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,.95) 46%, rgba(255,240,170,.8) 50%, transparent 62%) 0 0 / 250% 100%; animation: dpSweep 3.2s ease-in-out infinite; }
+.tcg-card--gold:hover { box-shadow: 0 0 44px rgba(255,215,90,.9), 0 0 100px rgba(255,170,30,.55), 0 14px 30px rgba(0,0,0,.5); }
+
+/* ── Secrète : respiration violette ── */
+.tcg-card--secret { animation: dpFloat 6s ease-in-out infinite; }
+.tcg-card--secret > .tcg-card__art img { filter: saturate(1.25) contrast(1.08); }
+.tcg-card--secret:hover { box-shadow: 0 0 36px rgba(170,90,255,.8), 0 0 90px rgba(255,220,60,.28), 0 14px 30px rgba(0,0,0,.55); }
+
+/* ── Légende (Aeon) : halo vivant ── */
+.tcg-card--aeon > .tcg-card__art img { filter: saturate(1.15) brightness(1.04); }
+.tcg-card--aeon { box-shadow: 0 0 30px rgba(255,225,130,.45), 0 0 80px rgba(255,200,80,.2); }
+
+/* ═════════ LÉGENDE ASTRALE ÉTERNELLE ═════════ */
+.tcg-card--astral { position: relative; border: 0 !important; border-radius: 20px !important; overflow: visible; isolation: isolate; background: #05030d;
+  animation: dpFloat 5.5s ease-in-out infinite;
+  box-shadow: 0 0 28px rgba(255,70,110,.55), 0 0 70px rgba(150,80,255,.45), 0 0 130px rgba(80,210,255,.25), 0 16px 34px rgba(0,0,0,.65); }
+.tcg-card--astral:hover { box-shadow: 0 0 44px rgba(255,90,130,.9), 0 0 110px rgba(170,100,255,.7), 0 0 190px rgba(90,220,255,.45), 0 16px 34px rgba(0,0,0,.7); }
+.tcg-card--astral > .tcg-card__art { position: absolute; inset: 0; z-index: 0; border-radius: inherit; overflow: hidden; }
+.tcg-card--astral > .tcg-card__art img { width: 100%; height: 100%; object-fit: cover; object-position: 63% 38%; filter: saturate(1.2) contrast(1.08); }
+.tcg-card--astral > .tcg-card__art::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: linear-gradient(180deg, rgba(5,3,13,.35), transparent 22%, transparent 48%, rgba(5,3,13,.82) 78%, #05030d); }
+.tcg-card--astral .tcg-card__inner { inset: 0; z-index: 8; border-radius: inherit; background: none; }
+.tcg-card--astral .tcg-card__name { font-weight: 800; letter-spacing: .12em; background: linear-gradient(90deg, #ffe9a8, #ff8fb4, #b9a0ff, #8fe9ff, #ffe9a8) 0 0 / 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: dpSweep 5s linear infinite; filter: drop-shadow(0 0 8px rgba(255,170,200,.7)); }
+.tcg-card--astral .tcg-card__foot { color: #ffe9a8; text-shadow: 0 0 8px rgba(255,200,120,.8); }
+.tcg-ast-ring { position: absolute; inset: -3px; z-index: 9; border-radius: 22px; padding: 4px; pointer-events: none;
+  background: conic-gradient(from var(--dp-a), #ffd86a, #ff4f8b, #9a6bff, #54d8ff, #7dffbe, #ffd86a); animation: dpSpin 3.6s linear infinite;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; filter: drop-shadow(0 0 7px rgba(255,200,120,.9)); }
+.tcg-ast-rays { position: absolute; inset: 0; z-index: 4; border-radius: inherit; overflow: hidden; pointer-events: none; mix-blend-mode: screen; opacity: .22; }
+.tcg-ast-rays::before { content: ""; position: absolute; left: 50%; top: 40%; width: 220%; aspect-ratio: 1; margin: -110% 0 0 -110%;
+  background: repeating-conic-gradient(from 0deg, rgba(255,220,150,.55) 0 4deg, transparent 4deg 15deg); -webkit-mask: radial-gradient(circle, #000 0, transparent 52%); mask: radial-gradient(circle, #000 0, transparent 52%); animation: dpRot 38s linear infinite; }
+.tcg-ast-aurora { position: absolute; left: -10%; right: -10%; bottom: 0; height: 46%; z-index: 5; pointer-events: none; mix-blend-mode: screen; opacity: .7; border-radius: 0 0 20px 20px;
+  background: linear-gradient(100deg, rgba(255,80,130,.0), rgba(255,80,130,.55), rgba(150,90,255,.55), rgba(70,220,255,.5), rgba(255,80,130,0)) 0 50% / 200% 100%; filter: blur(14px); animation: dpAurora 7s ease-in-out infinite; }
+.tcg-ast-glyphs { position: absolute; left: 0; right: 0; top: 6px; z-index: 9; text-align: center; font-style: normal; font-size: .6rem; letter-spacing: .7em; color: #ffe9a8; text-shadow: 0 0 8px rgba(255,200,120,.9); opacity: .85; animation: dpPulse 3s ease-in-out infinite; pointer-events: none; }
+.tcg-ast-corner { position: absolute; width: 26px; height: 26px; z-index: 10; pointer-events: none; border: 0 solid #ffe29a; filter: drop-shadow(0 0 5px #ffb54a); animation: dpPulse 2.4s ease-in-out infinite; }
+.tcg-ast-corner--tl { left: 6px; top: 6px; border-width: 3px 0 0 3px; border-top-left-radius: 12px; }
+.tcg-ast-corner--tr { right: 6px; top: 6px; border-width: 3px 3px 0 0; border-top-right-radius: 12px; }
+.tcg-ast-corner--bl { left: 6px; bottom: 6px; border-width: 0 0 3px 3px; border-bottom-left-radius: 12px; }
+.tcg-ast-corner--br { right: 6px; bottom: 6px; border-width: 0 3px 3px 0; border-bottom-right-radius: 12px; }
+.tcg-ast-star { position: absolute; left: var(--x); bottom: 4%; z-index: 7; width: var(--s); height: var(--s); pointer-events: none; opacity: 0; animation: dpRise 5.5s ease-in infinite; animation-delay: var(--d);
+  background: radial-gradient(circle, #fff 0 18%, rgba(255,230,160,.9) 30%, transparent 70%); border-radius: 50%; box-shadow: 0 0 8px #ffd98a; }
+
+/* ── Ouverture de booster : explosion d'arrivée ── */
+.booster-card-arrival { position: relative; }
+.booster-card-arrival.rarity-full > .tcg-card, .booster-card-arrival.rarity-group > .tcg-card, .booster-card-arrival.rarity-legend > .tcg-card { animation: dpBurst .8s cubic-bezier(.2,.9,.3,1.2); }
+.booster-card-arrival.rarity-gold > .tcg-card, .booster-card-arrival.rarity-secret > .tcg-card { animation: dpBurst 1s cubic-bezier(.2,.9,.3,1.2); }
+.booster-card-arrival.rarity-gold::after, .booster-card-arrival.rarity-secret::after, .booster-card-arrival.rarity-legend::after, .booster-card-arrival.rarity-astral::after { content: ""; position: absolute; inset: -40%; z-index: -1; pointer-events: none; opacity: 0; animation: dpFlash 1.2s ease-out;
+  background: radial-gradient(circle, rgba(255,235,170,.9), rgba(255,170,60,.35) 35%, transparent 65%); }
+.booster-card-arrival.rarity-secret::after { background: radial-gradient(circle, rgba(220,170,255,.9), rgba(140,70,255,.35) 35%, transparent 65%); }
+.booster-card-arrival.rarity-astral > .tcg-card { animation: dpBurst 1.6s cubic-bezier(.2,.9,.3,1.25), dpFloat 5.5s 1.6s ease-in-out infinite; }
+.booster-card-arrival.rarity-astral::before { content: ""; position: absolute; left: 50%; top: 50%; width: 260%; aspect-ratio: 1; margin: -130% 0 0 -130%; z-index: -1; pointer-events: none;
+  background: repeating-conic-gradient(from 0deg, rgba(255,210,130,.45) 0 3deg, transparent 3deg 12deg); -webkit-mask: radial-gradient(circle, #000 0, transparent 55%); mask: radial-gradient(circle, #000 0, transparent 55%); animation: dpRot 22s linear infinite; }
+
+/* ── Classeur : emplacements ── */
+.binder-card.rarity-astral { filter: drop-shadow(0 0 14px rgba(190,120,255,.8)); }
+.binder-flip-back.is-astral { background: linear-gradient(rgba(5,3,13,.72), rgba(5,3,13,.88)), url("assets/fanarts/obsidian-astral-scene.png") center / cover; color: #ffe9a8; }
+
+/* ── Sceau d'Éclipse (page booster) ── */
+.astral-seal { display: flex; gap: 18px; align-items: center; margin: 14px 0; padding: 16px 18px; border-radius: 18px; border: 1px solid rgba(190,140,255,.4);
+  background: radial-gradient(circle at 0 0, rgba(150,80,255,.28), transparent 55%), rgba(10,8,24,.72); }
+.astral-seal b { display: block; font-size: 1.05rem; margin: 2px 0 4px; background: linear-gradient(90deg, #ffe9a8, #ff8fb4, #b9a0ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.astral-seal p { margin: 0 0 8px; font-size: .82rem; opacity: .8; }
+.astral-seal small { opacity: .85; }
+.astral-seal-orb { flex: none; width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(from var(--dp-a), #ffd86a, #ff4f8b, #9a6bff, #54d8ff, #ffd86a); animation: dpSpin 4s linear infinite; }
+.astral-seal-orb i { width: 44px; height: 44px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #3a2760, #07040f); box-shadow: inset 0 0 12px rgba(255,200,120,.5); }
+.astral-seal-bar { height: 8px; border-radius: 99px; background: rgba(255,255,255,.12); overflow: hidden; margin-bottom: 6px; }
+.astral-seal-bar i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #ffd86a, #ff4f8b, #9a6bff, #54d8ff); box-shadow: 0 0 10px rgba(255,160,200,.8); transition: width .6s; }
+.astral-seal.is-full { border-color: #ffd86a; box-shadow: 0 0 30px rgba(255,200,100,.5); animation: dpPulse 1.6s infinite; }
+@media (max-width: 560px) { .astral-seal { flex-direction: column; text-align: center; } }
+@media (prefers-reduced-motion: reduce) { .tcg-card, .tcg-card *, .booster-card-arrival *, .astral-seal * { animation: none !important; } }
+
+/* ═════════ v78 : icônes d'éléments, reflet qui suit le pointeur, parallaxe ═════════ */
+.tcg-badge:has(.tcg-badge-el) { background: radial-gradient(circle at 35% 30%, rgba(255,255,255,.35), rgba(0,0,0,.45)); }
+.tcg-badge-el { width: 78%; height: 78%; object-fit: contain; filter: drop-shadow(0 1px 3px rgba(0,0,0,.7)); }
+.tcg-skill--pk .tcg-en i[style] { width: 18px; height: 18px; border-radius: 0; background: var(--ei) center / contain no-repeat; box-shadow: none; filter: drop-shadow(0 1px 2px rgba(0,0,0,.8)); }
+
+.tcg-elem-wm { position: absolute; right: -14%; top: 12%; width: 66%; aspect-ratio: 1; z-index: 2; pointer-events: none; background: var(--ei) center / contain no-repeat; opacity: .17; mix-blend-mode: screen; animation: dpFloat 7s ease-in-out infinite; }
+.tcg-card--astral .tcg-elem-wm { opacity: .2; right: -10%; top: 30%; filter: drop-shadow(0 0 14px rgba(255,200,140,.7)); }
+
+.tcg-glare { position: absolute; inset: 0; z-index: 7; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .25s; overflow: hidden;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.42), rgba(255,255,255,.08) 38%, transparent 62%); mix-blend-mode: overlay; }
+.tcg-glare::before { content: ""; position: absolute; inset: 0; opacity: .75; mix-blend-mode: color-dodge;
+  background: radial-gradient(circle, #fff 0 .8px, transparent 1.4px) 0 0 / 11px 11px, radial-gradient(circle, #ffe9a8 0 .7px, transparent 1.2px) 5px 6px / 11px 11px;
+  -webkit-mask: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), #000, transparent 55%); mask: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), #000, transparent 55%); }
+.tcg-card:hover > .tcg-glare { opacity: 1; }
+
+.tcg-card--immersive > .tcg-card__art img, .tcg-card--astral > .tcg-card__art img { transition: transform .25s ease-out; transform: scale(1.07) translate(calc((var(--mx, 50%) - 50%) * -.05), calc((var(--my, 50%) - 50%) * -.05)); }
+.tcg-card--immersive { box-shadow: inset 0 0 0 1px rgba(255,255,255,.22), 0 12px 28px rgba(0,0,0,.5); }
+
+.tcg-ast-ribbon { position: absolute; right: 5px; top: 50%; z-index: 10; transform: translateY(-50%); writing-mode: vertical-rl; font-style: normal; font-size: .45rem; font-weight: 700; letter-spacing: .42em; color: #ffe9a8; text-shadow: 0 0 6px rgba(255,190,110,.9); opacity: .8; pointer-events: none; }
+.tcg-ast-orbit { position: absolute; left: 50%; top: 40%; width: 78%; aspect-ratio: 1; margin: -39% 0 0 -39%; z-index: 6; pointer-events: none; border-radius: 50%; border: 1px dashed rgba(255,230,170,.35); animation: dpRot 14s linear infinite; }
+.tcg-ast-orbit b { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: #fff; box-shadow: 0 0 10px 3px rgba(255,200,130,.9); }
+.tcg-ast-orbit b:nth-child(1) { left: 50%; top: -4px; } .tcg-ast-orbit b:nth-child(2) { right: 6%; bottom: 14%; } .tcg-ast-orbit b:nth-child(3) { left: 6%; bottom: 14%; background: #9fe8ff; box-shadow: 0 0 10px 3px rgba(120,220,255,.9); }
+
+/* Lisibilité du texte sur les illustrations plein cadre */
+.tcg-card--immersive .tcg-skills, .tcg-card--astral .tcg-skills { margin-top: auto; padding: 4px 10px 5px; border-radius: 10px; background: linear-gradient(rgba(6,4,16,.58), rgba(6,4,16,.48)); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); box-shadow: inset 0 0 0 1px rgba(255,255,255,.12); }
+.tcg-card--gold .tcg-skills { background: linear-gradient(rgba(70,40,0,.5), rgba(70,40,0,.4)); }
+.tcg-fx--holo::before { opacity: .32; }
+.tcg-card:hover > .tcg-fx--holo::before { opacity: .7; }
+
+/* ═════════ v79 : foil « master » façon Masterball, auras, astrale apogée, or lisse ═════════ */
+@keyframes dpFoil { 0% { background-position: 0% 20%; } 50% { background-position: 100% 80%; } 100% { background-position: 0% 20%; } }
+@keyframes dpShoot { 0%,70% { transform: translate(0,0) rotate(-32deg); opacity: 0; } 72% { opacity: 1; } 100% { transform: translate(-190px,120px) rotate(-32deg); opacity: 0; } }
+@keyframes dpFlare { 0%,100% { transform: translate(-20%,-10%) scale(.8); opacity: .0; } 40% { opacity: .9; } 60% { transform: translate(120%,90%) scale(1.15); opacity: .9; } }
+@keyframes dpAuraSpin { to { --dp-a: 360deg; } }
+@keyframes dpShake { 0%,100% { transform: translate(0); } 20% { transform: translate(-3px,2px); } 40% { transform: translate(3px,-2px); } 60% { transform: translate(-2px,-2px); } 80% { transform: translate(2px,2px); } }
+
+/* Foil à motif (sigil astral répété) qui change de couleur selon l'angle, comme les cartes Masterball */
+.tcg-foil { position: absolute; inset: 0; z-index: 5; border-radius: inherit; pointer-events: none; mix-blend-mode: color-dodge; opacity: .26; transition: opacity .3s;
+  background: linear-gradient(115deg, #ff3d97 0%, #ffe24a 16%, #3dffc8 32%, #3d8bff 48%, #b05cff 64%, #ff3d97 80%, #ffe24a 100%); background-size: 320% 320%; background-position: 0% 20%; animation: dpFoil 7s ease-in-out infinite;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 34 34'%3E%3Cg fill='none' stroke='%23fff' stroke-width='1.5'%3E%3Cpath d='M17 3.5L20.2 13.8 30.5 17 20.2 20.2 17 30.5 13.8 20.2 3.5 17 13.8 13.8z'/%3E%3C/g%3E%3Ccircle cx='17' cy='17' r='1.8' fill='%23fff'/%3E%3Ccircle cx='0' cy='0' r='2' fill='%23fff'/%3E%3Ccircle cx='34' cy='0' r='2' fill='%23fff'/%3E%3Ccircle cx='0' cy='34' r='2' fill='%23fff'/%3E%3Ccircle cx='34' cy='34' r='2' fill='%23fff'/%3E%3C/svg%3E") 0 0 / 34px 34px;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 34 34'%3E%3Cg fill='none' stroke='%23fff' stroke-width='1.5'%3E%3Cpath d='M17 3.5L20.2 13.8 30.5 17 20.2 20.2 17 30.5 13.8 20.2 3.5 17 13.8 13.8z'/%3E%3C/g%3E%3Ccircle cx='17' cy='17' r='1.8' fill='%23fff'/%3E%3Ccircle cx='0' cy='0' r='2' fill='%23fff'/%3E%3Ccircle cx='34' cy='0' r='2' fill='%23fff'/%3E%3Ccircle cx='0' cy='34' r='2' fill='%23fff'/%3E%3Ccircle cx='34' cy='34' r='2' fill='%23fff'/%3E%3C/svg%3E") 0 0 / 34px 34px; }
+.tcg-card:hover > .tcg-foil { opacity: .8; animation: none; background-position: var(--mx, 50%) var(--my, 50%); }
+.tcg-card--astral > .tcg-foil { opacity: .34; }
+
+/* Aura autour de la carte (Groupe + Astrale) : la carte déborde de son cadre */
+.tcg-card--group, .tcg-card--astral { overflow: visible; }
+.tcg-card--group > .tcg-card__art { overflow: hidden; border-radius: inherit; }
+.tcg-aura { position: absolute; inset: -16px; z-index: -1; border-radius: 30px; pointer-events: none; filter: blur(11px); opacity: .85;
+  background: conic-gradient(from var(--dp-a), #b69aff, #5fe8ff, #ff7ac8, #ffe07a, #b69aff); animation: dpAuraSpin 5s linear infinite; }
+.tcg-aura--astral { inset: -22px; filter: blur(16px); opacity: .95; background: conic-gradient(from var(--dp-a), #ffd86a, #ff4f8b, #9a6bff, #54d8ff, #7dffbe, #ffd86a); }
+.tcg-card--group { box-shadow: 0 0 0 2px rgba(255,255,255,.45), 0 14px 30px rgba(0,0,0,.55); }
+.tcg-card--group:hover .tcg-aura { filter: blur(8px); opacity: 1; }
+.tcg-orbs { position: absolute; inset: -26px; z-index: 11; pointer-events: none; border-radius: 40px; animation: dpRot 16s linear infinite; }
+.tcg-orbs b { position: absolute; width: 7px; height: 7px; border-radius: 50%; background: #fff; box-shadow: 0 0 10px 3px rgba(190,160,255,.95); }
+.tcg-orbs b:nth-child(1) { left: 50%; top: 0; } .tcg-orbs b:nth-child(2) { right: 8%; top: 8%; } .tcg-orbs b:nth-child(3) { right: 0; top: 50%; background: #9fe8ff; box-shadow: 0 0 10px 3px rgba(120,220,255,.95); }
+.tcg-orbs b:nth-child(4) { right: 8%; bottom: 8%; } .tcg-orbs b:nth-child(5) { left: 50%; bottom: 0; background: #ffd0f0; box-shadow: 0 0 10px 3px rgba(255,150,220,.95); }
+.tcg-orbs b:nth-child(6) { left: 8%; bottom: 8%; } .tcg-orbs b:nth-child(7) { left: 0; top: 50%; background: #ffe9a8; box-shadow: 0 0 10px 3px rgba(255,210,120,.95); } .tcg-orbs b:nth-child(8) { left: 8%; top: 8%; }
+
+/* Astrale : étoiles filantes, reflet d'objectif, fond cosmique derrière l'illustration */
+.tcg-card--astral > .tcg-card__art { background: radial-gradient(circle at 30% 20%, #3a1d6e, transparent 55%), radial-gradient(circle at 80% 70%, #7a1f4a, transparent 55%), #05030d; }
+.tcg-ast-shoot { position: absolute; left: 88%; top: 6%; width: 90px; height: 2px; z-index: 9; pointer-events: none; border-radius: 2px; opacity: 0; background: linear-gradient(90deg, #fff, rgba(255,255,255,0)); transform: rotate(-32deg); animation: dpShoot 5s linear infinite; filter: drop-shadow(0 0 4px #fff); }
+.tcg-ast-shoot--2 { left: 70%; top: 18%; animation-delay: 1.9s; width: 60px; } .tcg-ast-shoot--3 { left: 96%; top: 30%; animation-delay: 3.4s; width: 70px; }
+.tcg-ast-flare { position: absolute; left: 0; top: 0; width: 62%; aspect-ratio: 1; z-index: 9; pointer-events: none; mix-blend-mode: screen; opacity: 0; animation: dpFlare 6.5s ease-in-out infinite;
+  background: radial-gradient(circle, rgba(255,255,255,.95) 0 3%, rgba(255,220,160,.5) 8%, transparent 40%), linear-gradient(90deg, transparent 38%, rgba(255,230,180,.8) 50%, transparent 62%) 50% 50% / 100% 2px no-repeat; }
+.tcg-card--astral { box-shadow: 0 0 34px rgba(255,80,130,.6), 0 0 90px rgba(160,90,255,.5), 0 0 160px rgba(80,215,255,.3), 0 18px 36px rgba(0,0,0,.7); }
+.booster-opening-overlay:has(.rarity-astral) .booster-opening-dim { background: radial-gradient(circle at 50% 45%, rgba(70,20,120,.92), #000 78%); }
+.booster-opening-overlay:has(.rarity-astral) .booster-reveal-shell { animation: dpShake .6s ease-out; }
+
+/* Or lisse : plus de grain ni de pointillés */
+.tcg-card--gold .tcg-fx { background: none !important; }
+.tcg-card--gold > .tcg-card__art { filter: none; }
+.tcg-card--gold .tcg-glare::before { display: none; }
+.tcg-card--gold .booster-card-image { image-rendering: auto; }
+.tcg-card--gold > .tcg-card__art::after { background: linear-gradient(135deg, rgba(122,82,20,.9), rgba(249,221,122,.85) 30%, rgba(255,246,196,.8) 46%, rgba(217,165,33,.85) 62%, rgba(122,82,20,.9)); mix-blend-mode: soft-light; }
+.tcg-card--gold .tcg-foil { mix-blend-mode: overlay; opacity: .5; }
+
+/* Common à Épique : l'illustration est une fenêtre, pas la carte entière */
+.tcg-card--common > .tcg-card__inner .tcg-card__art, .tcg-card--super > .tcg-card__inner .tcg-card__art, .tcg-card--rare > .tcg-card__inner .tcg-card__art, .tcg-card--epic > .tcg-card__inner .tcg-card__art {
+  flex: 0 0 38%; margin: 4px 1px 7px; border-radius: 12px; border: 2px solid rgba(255,255,255,.55); overflow: hidden; box-shadow: inset 0 0 14px rgba(0,0,0,.35), 0 3px 10px rgba(0,0,0,.45); }
+.tcg-card--common { background: linear-gradient(165deg, var(--c1), var(--c2)); border: 3px solid rgba(255,255,255,.4); }
+.tcg-card--common > .tcg-card__inner .tcg-card__art img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
+.tcg-card--group .tcg-card__inner { justify-content: flex-start; }
+.tcg-card--group .tcg-card__head { margin: 0; }
+.tcg-card--gold .tcg-card__name { color: #fff8dc; -webkit-text-fill-color: #fff8dc; text-shadow: 0 1px 0 #7a5214, 0 0 6px rgba(90,55,0,.9), 0 2px 8px rgba(60,35,0,.8); }
+
+/* ═════════ v80 : bords sans néon — métal poli, relief, filigranes, pile de cartes ═════════ */
+.tcg-aura, .tcg-orbs, .tcg-ast-ring { display: none !important; }
+.tcg-fx--holo::after { display: none; }
+.tcg-card--full, .tcg-card--legend { --edge: conic-gradient(from var(--dp-a), #f4f6ff, #8c93ab 12%, #ffffff 26%, #6a7088 44%, #e8ebff 60%, #9aa1ba 78%, #f4f6ff); --flo: linear-gradient(135deg, #f5f7ff, #9aa1ba 50%, #ffffff); }
+.tcg-card--group { --edge: conic-gradient(from var(--dp-a), #eef0fa, #7f86a0 14%, #fff 28%, #5d6480 46%, #e3e6f8 62%, #8e95b0 80%, #eef0fa); --flo: linear-gradient(135deg, #f5f7ff, #9aa1ba 50%, #ffffff); }
+.tcg-card--gold { --edge: conic-gradient(from var(--dp-a), #fff3b0, #b8860b 14%, #ffe9a0 28%, #7a5214 46%, #ffefae 62%, #c9971c 80%, #fff3b0); --flo: linear-gradient(135deg, #fff3b0, #c9971c 50%, #fff8d0); }
+.tcg-card--secret { --edge: conic-gradient(from var(--dp-a), #0a0614, #2b1750 20%, #0a0614 34%, #7a4be0 38%, #0a0614 44%, #2b1750 70%, #0a0614); --flo: linear-gradient(135deg, #b99cff, #5b3aa8 55%, #e8d9ff); }
+.tcg-card--astral { --edge: conic-gradient(from var(--dp-a), #ffffff, #ffd9ec, #d6e6ff, #dcffe6, #fff0c4, #ffffff); --flo: linear-gradient(135deg, #ffffff, #ffd9ec 30%, #d6e6ff 60%, #fff0c4); }
+.tcg-edge { position: absolute; inset: 0; z-index: 12; border-radius: inherit; pointer-events: none; }
+.tcg-edge::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 3.5px; background: var(--edge); animation: dpAuraSpin 9s linear infinite;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; box-shadow: inset 0 0 0 1px rgba(0,0,0,.35); }
+.tcg-edge::after { content: ""; position: absolute; inset: 7px; background: var(--flo); opacity: .92;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 308' preserveAspectRatio='none'%3E%3Cg fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round'%3E%3Cg id='c'%3E%3Cpath d='M1 17C1 8 8 1 17 1'/%3E%3Cpath d='M5 25C5 13 13 5 25 5'/%3E%3Cpath d='M9 12C13 9 15 8 18 8M8 18C9 14 10 12 12 10'/%3E%3C/g%3E%3Cuse href='%23c' transform='translate(220 0) scale(-1 1)'/%3E%3Cuse href='%23c' transform='translate(0 308) scale(1 -1)'/%3E%3Cuse href='%23c' transform='translate(220 308) scale(-1 -1)'/%3E%3C/g%3E%3Cg fill='%23000'%3E%3Cpath d='M4 4l1.6 1.6L4 7.2 2.4 5.6z'/%3E%3Cpath d='M216 4l1.6 1.6L216 7.2 214.4 5.6z'/%3E%3Cpath d='M4 304l1.6 1.6L4 307.2 2.4 305.6z'/%3E%3Cpath d='M216 304l1.6 1.6L216 307.2 214.4 305.6z'/%3E%3C/g%3E%3C/svg%3E") center / 100% 100% no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 308' preserveAspectRatio='none'%3E%3Cg fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round'%3E%3Cg id='c'%3E%3Cpath d='M1 17C1 8 8 1 17 1'/%3E%3Cpath d='M5 25C5 13 13 5 25 5'/%3E%3Cpath d='M9 12C13 9 15 8 18 8M8 18C9 14 10 12 12 10'/%3E%3C/g%3E%3Cuse href='%23c' transform='translate(220 0) scale(-1 1)'/%3E%3Cuse href='%23c' transform='translate(0 308) scale(1 -1)'/%3E%3Cuse href='%23c' transform='translate(220 308) scale(-1 -1)'/%3E%3C/g%3E%3Cg fill='%23000'%3E%3Cpath d='M4 4l1.6 1.6L4 7.2 2.4 5.6z'/%3E%3Cpath d='M216 4l1.6 1.6L216 7.2 214.4 5.6z'/%3E%3Cpath d='M4 304l1.6 1.6L4 307.2 2.4 305.6z'/%3E%3Cpath d='M216 304l1.6 1.6L216 307.2 214.4 305.6z'/%3E%3C/g%3E%3C/svg%3E") center / 100% 100% no-repeat; }
+/* ombres neutres à la place des halos colorés */
+.tcg-card--full, .tcg-card--legend, .tcg-card--secret, .tcg-card--gold, .tcg-card--astral { box-shadow: 0 16px 30px rgba(0,0,0,.55), 0 2px 0 rgba(255,255,255,.12) inset; }
+.tcg-card--full:hover, .tcg-card--legend:hover, .tcg-card--secret:hover, .tcg-card--gold:hover, .tcg-card--astral:hover { box-shadow: 0 24px 44px rgba(0,0,0,.65), 0 2px 0 rgba(255,255,255,.2) inset; }
+.tcg-card--group, .tcg-card--group:hover { box-shadow: 5px 6px 0 -1px #d5d9ec, 9px 12px 0 -2px #9aa1bd, 13px 18px 0 -3px #656c88, 16px 24px 26px rgba(0,0,0,.55); }
+.tcg-card--astral .tcg-ast-orbit b { box-shadow: none; }
+/* Secrète : coins gravés sombres, plus de rose fluo */
+.tcg-corner { --c: #8f78c8; filter: none !important; box-shadow: none !important; width: 56px; height: 56px; opacity: .95; }
+.tcg-corner::after { box-shadow: none; background: linear-gradient(135deg, #e8dcff, #8f78c8); }
+.tcg-bolt { filter: none !important; opacity: .55; }
+
+/* ═════════ v81 : sans grille, texte noir à contour blanc, effets EXTÉRIEURS à la carte ═════════ */
+/* 1. plus de motif d'étoiles ni de pointillés statiques */
+.tcg-foil { -webkit-mask: none !important; mask: none !important; opacity: 0; animation: none; mix-blend-mode: soft-light; }
+.tcg-card:hover > .tcg-foil { opacity: .7; background-position: var(--mx, 50%) var(--my, 50%); }
+.tcg-glare::before { display: none !important; }
+
+/* 2. texte façon Pokémon : noir, fin contour blanc, plus de panneau sombre */
+.tcg-card .tcg-skills, .tcg-card--immersive .tcg-skills, .tcg-card--astral .tcg-skills, .tcg-card--gold .tcg-skills { background: none !important; box-shadow: none !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+.tcg-card--full .tcg-card__inner, .tcg-card--legend .tcg-card__inner, .tcg-card--secret .tcg-card__inner, .tcg-card--gold .tcg-card__inner, .tcg-card--group .tcg-card__inner, .tcg-card--astral .tcg-card__inner { background: linear-gradient(180deg, transparent 52%, rgba(255,255,255,.2)) !important; }
+.tcg-card .tcg-card__name, .tcg-card .tcg-card__hp, .tcg-card .tcg-card__hp small, .tcg-card .tcg-move-name, .tcg-card .tcg-skill__row em, .tcg-card .tcg-skill--pk > p, .tcg-card .tcg-card__foot, .tcg-card .tcg-card__foot span, .tcg-card .tcg-pk-info, .tcg-card .tcg-pk-info small, .tcg-card .tcg-skill__row b {
+  color: #0a0a10 !important; -webkit-text-fill-color: #0a0a10 !important; background: none !important; -webkit-text-stroke: 2.6px #fff; paint-order: stroke fill; text-shadow: none !important; filter: none; opacity: 1; font-weight: 700; }
+.tcg-card .tcg-skill--pk > p, .tcg-card .tcg-card__foot, .tcg-card .tcg-pk-info small { -webkit-text-stroke-width: 2.2px; }
+.tcg-card--astral .tcg-card__name, .tcg-card--gold .tcg-card__name { background: none !important; animation: none; }
+.tcg-card .tcg-skill + .tcg-skill, .tcg-skill--pk + .tcg-skill--pk, .tcg-pk-info { border-color: rgba(255,255,255,.85) !important; }
+
+/* 3. effets à l'extérieur de la carte : lumière, poussière, braises qui s'échappent du cadre */
+.tcg-card--full, .tcg-card--legend, .tcg-card--secret, .tcg-card--gold, .tcg-card--group, .tcg-card--astral { overflow: visible; }
+.tcg-card--full > .tcg-card__art, .tcg-card--legend > .tcg-card__art, .tcg-card--secret > .tcg-card__art, .tcg-card--gold > .tcg-card__art, .tcg-card--group > .tcg-card__art, .tcg-card--astral > .tcg-card__art { overflow: hidden; border-radius: inherit; }
+.tcg-fx, .tcg-glare, .tcg-foil, .tcg-fx--holo { overflow: hidden; border-radius: inherit; }
+@keyframes dpDrift { 0% { transform: translate(0,0) scale(.3) rotate(0); opacity: 0; } 15% { opacity: .95; } 100% { transform: translate(var(--dx), -150px) scale(1) rotate(90deg); opacity: 0; } }
+.tcg-fxo { position: absolute; inset: -44px; z-index: -1; pointer-events: none; }
+.tcg-fxo::before { content: ""; position: absolute; inset: 0; opacity: .55; animation: dpRot 46s linear infinite;
+  background: repeating-conic-gradient(from 0deg, var(--fo-a, rgba(255,255,255,.4)) 0 2.5deg, transparent 2.5deg 12deg);
+  -webkit-mask: radial-gradient(circle, transparent 40%, #000 56%, transparent 76%); mask: radial-gradient(circle, transparent 40%, #000 56%, transparent 76%); }
+.tcg-fxo b { position: absolute; left: var(--x); bottom: var(--y); width: var(--s); height: var(--s); background: var(--fo, #fff); clip-path: var(--fshape, polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%)); opacity: 0; animation: dpDrift var(--t) ease-in infinite; animation-delay: var(--d); }
+.tcg-card:hover .tcg-fxo::before { animation-duration: 16s; opacity: .8; }
+.tcg-card--full  { --fo: #ffffff; --fo-a: rgba(220,230,255,.4); }
+.tcg-card--legend { --fo: #fff1c4; --fo-a: rgba(255,240,200,.45); }
+.tcg-card--gold { --fo: #ffdf8a; --fo-a: rgba(255,205,100,.45); --fshape: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+.tcg-card--group { --fo: #e6e9ff; --fo-a: rgba(210,216,255,.4); }
+.tcg-card--secret { --fo: rgba(120,80,210,.75); --fo-a: transparent; --fshape: circle(50%); }
+.tcg-card--secret .tcg-fxo b { filter: blur(3px); width: calc(var(--s) * 3.2); height: calc(var(--s) * 3.2); }
+.tcg-card--astral { --fo: #fff7de; --fo-a: rgba(255,236,190,.55); }
+.tcg-card--astral .tcg-fxo::before { opacity: .75; }
+.tcg-card--astral .tcg-fxo b:nth-child(3n) { --fo: #ffd6ec; } .tcg-card--astral .tcg-fxo b:nth-child(3n+1) { --fo: #cfe4ff; }
+.tcg-card--gold > .tcg-card__art::after { mix-blend-mode: color; background: linear-gradient(135deg, #8a5d12, #f9dd7a 30%, #fff1b0 46%, #d9a521 62%, #8a5d12); opacity: .96; }
+
+/* ═════════ v82 : plus de traits qui brillent/tournent, plus de coins arrondis — la rareté se lit sur le bord ═════════ */
+.tcg-ast-rays, .tcg-ast-orbit, .tcg-ast-flare, .tcg-ast-shoot, .tcg-ast-corner, .tcg-corner, .tcg-bolt { display: none !important; }
+.tcg-edge::before { animation: none; --dp-a: 35deg; }
+.tcg-card:hover > .tcg-edge::before { animation: dpAuraSpin 14s linear infinite; }
+/* gemme de rareté au centre du bord haut + liseré intérieur de la couleur de la rareté */
+.tcg-edge::after { inset: auto; left: 50%; top: -6px; width: 15px; height: 15px; margin-left: -7.5px; transform: rotate(45deg); background: var(--flo); opacity: 1; -webkit-mask: none; mask: none; border-radius: 3px; box-shadow: 0 0 0 1.5px rgba(0,0,0,.55), 0 2px 5px rgba(0,0,0,.5); }
+.tcg-edge { --rim: rgba(255,255,255,.5); --bw: 3.5px; box-shadow: inset 0 0 0 var(--bw) transparent; }
+.tcg-edge::before { padding: var(--bw); }
+.tcg-edge i, .tcg-edge { filter: none; }
+.tcg-card--full   { --bw: 3.5px; }
+.tcg-card--group  { --bw: 4px; }
+.tcg-card--legend { --bw: 5px; --edge: conic-gradient(from var(--dp-a), #fff6d6, #7fc7ff 18%, #ffffff 30%, #9ad6ff 50%, #fff6d6 66%, #7fc7ff 84%, #fff6d6); --flo: linear-gradient(135deg, #fff6d6, #7fc7ff 55%, #ffffff); }
+.tcg-card--gold   { --bw: 6px; }
+.tcg-card--secret { --bw: 6px; }
+.tcg-card--astral { --bw: 7px; }
+/* liseré lumineux intérieur, couleur de la rareté, sans néon */
+.tcg-card--full > .tcg-edge  { box-shadow: inset 0 0 0 var(--bw) transparent, inset 0 0 14px rgba(200,215,255,.35); }
+.tcg-card--legend > .tcg-edge { box-shadow: inset 0 0 16px rgba(140,210,255,.45); }
+.tcg-card--gold > .tcg-edge   { box-shadow: inset 0 0 16px rgba(255,200,90,.5); }
+.tcg-card--secret > .tcg-edge { box-shadow: inset 0 0 18px rgba(130,80,230,.55); }
+.tcg-card--astral > .tcg-edge { box-shadow: inset 0 0 20px rgba(255,220,240,.55); }
+.tcg-card--group > .tcg-edge  { box-shadow: inset 0 0 12px rgba(220,225,255,.4); }
+/* Commune → Épique : bord de la couleur de leur rareté */
+.tcg-card--common { border-color: rgba(255,255,255,.45); }
+.tcg-card--super  { border: 3px solid #cfd6e6; box-shadow: inset 0 0 10px rgba(220,230,255,.4); }
+.tcg-card--rare   { border: 4px solid #6fb4ff; box-shadow: inset 0 0 12px rgba(111,180,255,.5); }
+.tcg-card--epic   { border: 5px solid #c58bff; box-shadow: inset 0 0 14px rgba(197,139,255,.6), 0 0 0 1px #ffe29a; }
+/* coins ornementés / cadres intérieurs / néon rotatif de l'Épique : supprimés */
+.tcg-card--epic .tcg-card__inner::after, .tcg-card--full .tcg-card__inner::after, .tcg-card--group .tcg-card__inner::after, .tcg-card--full .tcg-card__inner::before, .tcg-card--group .tcg-card__inner::before { display: none !important; }
+.tcg-card--epic { background: linear-gradient(135deg, #5a2aa8, #d9a6ff 45%, #ffd98a 55%, #6a32b8) !important; animation: none !important; border: 0 !important; box-shadow: 0 12px 28px rgba(0,0,0,.55), inset 0 0 12px rgba(255,225,150,.5) !important; }
+.tcg-card--epic:hover { box-shadow: 0 16px 34px rgba(0,0,0,.65), inset 0 0 16px rgba(255,225,150,.7) !important; }
+.tcg-rays, .tcg-beam { display: none !important; }
+
+/* ═════════ v83 : cadres ouvragés (double filet, biseau, couronne, éclat qui circule) — aucun motif sur l'illustration ═════════ */
+@property --sh { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+@keyframes dpSheen { to { --sh: 360deg; } }
+@keyframes dpTwinkle { 0%,100% { filter: brightness(1); transform: rotate(45deg) scale(1); } 50% { filter: brightness(1.7) saturate(1.2); transform: rotate(45deg) scale(1.18); } }
+/* anneau : métal + éclat blanc qui parcourt le bord */
+.tcg-edge::before { background: conic-gradient(from var(--sh), transparent 0 84%, rgba(255,255,255,.95) 93%, transparent 100%), var(--edge); animation: dpSheen 6s linear infinite !important; }
+.tcg-card--astral > .tcg-edge::before { animation: dpSheen 3.6s linear infinite, dpAuraSpin 7s linear infinite !important; background: conic-gradient(from var(--sh), transparent 0 80%, #fff 92%, transparent 100%), conic-gradient(from var(--dp-a), #fff, #ffc6e4, #bcd7ff, #c8ffd8, #fff2b8, #ffc6e4, #fff); }
+.tcg-card--gold > .tcg-edge::before { animation-duration: 4.5s !important; }
+/* couronne en haut et en bas du cadre, façon plaque ciselée */
+.tcg-edge::after { inset: -9px 0; left: 0; top: auto; width: auto; height: auto; margin: 0; transform: none; border-radius: 0; box-shadow: none; animation: none; background: var(--flo);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 110 18'%3E%3Cg fill='%23000'%3E%3Cpath d='M55 1l7 8-7 8-7-8z'/%3E%3Cpath d='M36 9l5-3.6 5 3.6-5 3.6zM64 9l5-3.6 5 3.6-5 3.6z'/%3E%3Cpath d='M2 9.6C20 8.4 28 8.8 33.5 9 28 9.6 20 10.4 2 9.6zM108 9.6C90 8.4 82 8.8 76.5 9 82 9.6 90 10.4 108 9.6z'/%3E%3C/g%3E%3C/svg%3E") center top / 124px 20px no-repeat, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 110 18'%3E%3Cg fill='%23000'%3E%3Cpath d='M55 1l7 8-7 8-7-8z'/%3E%3Cpath d='M36 9l5-3.6 5 3.6-5 3.6zM64 9l5-3.6 5 3.6-5 3.6z'/%3E%3Cpath d='M2 9.6C20 8.4 28 8.8 33.5 9 28 9.6 20 10.4 2 9.6zM108 9.6C90 8.4 82 8.8 76.5 9 82 9.6 90 10.4 108 9.6z'/%3E%3C/g%3E%3C/svg%3E") center bottom / 124px 20px no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 110 18'%3E%3Cg fill='%23000'%3E%3Cpath d='M55 1l7 8-7 8-7-8z'/%3E%3Cpath d='M36 9l5-3.6 5 3.6-5 3.6zM64 9l5-3.6 5 3.6-5 3.6z'/%3E%3Cpath d='M2 9.6C20 8.4 28 8.8 33.5 9 28 9.6 20 10.4 2 9.6zM108 9.6C90 8.4 82 8.8 76.5 9 82 9.6 90 10.4 108 9.6z'/%3E%3C/g%3E%3C/svg%3E") center top / 124px 20px no-repeat, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 110 18'%3E%3Cg fill='%23000'%3E%3Cpath d='M55 1l7 8-7 8-7-8z'/%3E%3Cpath d='M36 9l5-3.6 5 3.6-5 3.6zM64 9l5-3.6 5 3.6-5 3.6z'/%3E%3Cpath d='M2 9.6C20 8.4 28 8.8 33.5 9 28 9.6 20 10.4 2 9.6zM108 9.6C90 8.4 82 8.8 76.5 9 82 9.6 90 10.4 108 9.6z'/%3E%3C/g%3E%3C/svg%3E") center bottom / 124px 20px no-repeat; }
+.tcg-card--astral > .tcg-edge::after { background: conic-gradient(from var(--dp-a), #fff, #ffc6e4, #bcd7ff, #c8ffd8, #fff2b8, #fff); filter: drop-shadow(0 0 3px rgba(255,255,255,.9)); }
+/* cadre extérieur : filets et biseaux empilés autour de la carte */
+.tcg-card--full   { box-shadow: 0 0 0 2px #2a2f45, 0 0 0 4px #c9d0e8, 0 0 0 5.5px #424a68, 0 18px 30px rgba(0,0,0,.6) !important; }
+.tcg-card--legend { box-shadow: 0 0 0 2px #1d3552, 0 0 0 4px #bfe4ff, 0 0 0 6px #fff6d6, 0 0 0 7.5px #3d6d9c, 0 18px 32px rgba(0,0,0,.6) !important; }
+.tcg-card--gold   { box-shadow: 0 0 0 2px #4a3008, 0 0 0 4.5px #ffe9a0, 0 0 0 6.5px #b8860b, 0 0 0 8px #fff3b0, 0 0 0 9.5px #5a3a0a, 0 20px 34px rgba(0,0,0,.65) !important; }
+.tcg-card--secret { box-shadow: 0 0 0 2px #05030c, 0 0 0 4.5px #7a4be0, 0 0 0 6px #1a0e33, 0 0 0 7.5px #b99cff, 0 0 0 9px #05030c, 0 20px 34px rgba(0,0,0,.7) !important; }
+.tcg-card--astral { box-shadow: 0 0 0 2px #3a2208, 0 0 0 4.5px #fff3c4, 0 0 0 6.5px #d9a521, 0 0 0 8px #ffffff, 0 0 0 10px #7a5214, 0 0 0 11.5px #ffe9a8, 0 24px 40px rgba(0,0,0,.7) !important; }
+.tcg-card--full:hover, .tcg-card--legend:hover, .tcg-card--gold:hover, .tcg-card--secret:hover, .tcg-card--astral:hover { filter: brightness(1.08); }
+/* lumière douce qui s'échappe de derrière la carte (pas de néon) */
+.tcg-fxo::after { content: ""; position: absolute; inset: 22px; border-radius: 34px; opacity: .0; animation: dpPulse 4.5s ease-in-out infinite; filter: blur(22px);
+  background: radial-gradient(ellipse at 50% 50%, var(--fo-a, rgba(255,255,255,.5)), transparent 70%); }
+.tcg-card--gold .tcg-fxo::after, .tcg-card--astral .tcg-fxo::after, .tcg-card--legend .tcg-fxo::after { opacity: .55; }
+.tcg-card--astral .tcg-fxo b { filter: drop-shadow(0 0 4px rgba(255,235,180,.9)); }
+.tcg-card--gold .tcg-fxo b { filter: drop-shadow(0 0 3px rgba(255,205,100,.9)); }
+/* reflets d'objet : balayage diagonal doux sur l'illustration, uniquement au survol */
+.tcg-card--astral:hover > .tcg-glare, .tcg-card--gold:hover > .tcg-glare { opacity: 1; }
+.tcg-card__head { border-left: 0 !important; padding-left: 0 !important; }
+.tcg-edge::after { top: -9px !important; bottom: -9px !important; }
+
+/* ═════════ v84 : cadres ciselés fins (SVG) + effets refaits ═════════ */
+@keyframes dpComet { to { stroke-dashoffset: -100; } }
+@keyframes dpGlint { 0%,100% { opacity: .15; transform: scale(.5); } 50% { opacity: 1; transform: scale(1.5); } }
+@keyframes dpHue { from { filter: drop-shadow(0 1px 1.5px rgba(0,0,0,.75)) hue-rotate(0deg); } to { filter: drop-shadow(0 1px 1.5px rgba(0,0,0,.75)) hue-rotate(360deg); } }
+@keyframes dpRing { 0% { transform: scale(1); opacity: .75; } 100% { transform: scale(1.22, 1.16); opacity: 0; } }
+@keyframes dpBeam { 0%,100% { opacity: .35; transform: scaleY(.85); } 50% { opacity: .95; transform: scaleY(1.1); } }
+@keyframes dpSpark { 0% { transform: translate(0,0) scaleY(.4); opacity: 0; } 12% { opacity: 1; } 100% { transform: translate(var(--dx), -280px) scaleY(1.6); opacity: 0; } }
+@keyframes dpPrism { 0% { background-position: 0% 0%; } 100% { background-position: 100% 100%; } }
+/* cadres : on enlève toute l'épaisseur, le tour devient une fine monture ciselée */
+.tcg-card--full, .tcg-card--legend, .tcg-card--gold, .tcg-card--secret, .tcg-card--astral { box-shadow: 0 0 0 1px rgba(0,0,0,.55), 0 18px 30px rgba(0,0,0,.55) !important; }
+.tcg-card--full:hover, .tcg-card--legend:hover, .tcg-card--gold:hover, .tcg-card--secret:hover, .tcg-card--astral:hover { box-shadow: 0 0 0 1px rgba(0,0,0,.55), 0 24px 40px rgba(0,0,0,.65) !important; filter: none; }
+.tcg-card--group, .tcg-card--group:hover { box-shadow: 4px 5px 0 -1px #d5d9ec, 8px 10px 0 -2px #8f96b4, 12px 15px 22px rgba(0,0,0,.5) !important; }
+.tcg-edge { box-shadow: none !important; }
+.tcg-edge::before { padding: 2px; animation: none !important; background: var(--edge) !important; }
+.tcg-edge::after { display: none !important; }
+.tcg-frame { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 12; filter: drop-shadow(0 1px 1.5px rgba(0,0,0,.75)); }
+.tcg-fl path, .tcg-fl circle { vector-effect: non-scaling-stroke; fill: none; stroke: var(--fg); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+.tcg-fl .tcg-outline { stroke-width: 2; } .tcg-fl .tcg-inner { stroke-width: .9; opacity: .75; }
+.tcg-fl .f { fill: var(--fg); stroke-width: .6; }
+.tcg-gl { transform-box: fill-box; transform-origin: center; animation: dpGlint 2.6s ease-in-out infinite; }
+.tcg-comet { vector-effect: non-scaling-stroke; fill: none; stroke: #fff; stroke-width: 2.6; stroke-linecap: round; stroke-dasharray: 5 95; animation: dpComet 4.2s linear infinite; filter: drop-shadow(0 0 3px #fff) drop-shadow(0 0 6px var(--cm, #fff)); }
+.tcg-comet--b { animation-duration: 4.2s; animation-delay: -2.1s; } .tcg-comet--c { animation-duration: 6s; animation-delay: -1s; stroke-dasharray: 3 97; }
+.tcg-card--gold { --cm: #ffb52e; } .tcg-card--secret { --cm: #9d6bff; } .tcg-card--legend { --cm: #6cc4ff; } .tcg-card--astral { --cm: #ff9ad0; }
+.tcg-card--astral .tcg-frame { animation: dpHue 9s linear infinite; }
+.tcg-card--astral .tcg-frame .tcg-comet { animation-duration: 2.8s; }
+.tcg-card:hover .tcg-comet { animation-duration: 1.6s; }
+/* anneaux d'onde qui s'étendent hors de la carte */
+.tcg-card--full::before, .tcg-card--legend::before, .tcg-card--gold::before, .tcg-card--secret::before, .tcg-card--astral::before, .tcg-card--group::before,
+.tcg-card--legend::after, .tcg-card--gold::after, .tcg-card--secret::after, .tcg-card--astral::after { content: ""; position: absolute; inset: -2px; border-radius: 20px; border: 2px solid var(--cm, #fff); pointer-events: none; z-index: -1; opacity: 0; animation: dpRing 3.6s ease-out infinite; }
+.tcg-card--full::before { --cm: #cfd8ff; } .tcg-card--group::before { --cm: #dfe4ff; }
+.tcg-card--legend::after, .tcg-card--gold::after, .tcg-card--secret::after, .tcg-card--astral::after { animation-delay: 1.8s; }
+.tcg-card--astral::before, .tcg-card--astral::after { animation-duration: 2.6s; border-width: 3px; }
+.tcg-card--astral::after { animation-delay: 1.3s; }
+/* colonnes de lumière qui montent derrière la carte */
+.tcg-fxo::before { content: ""; position: absolute; inset: -80px 10px 30px; display: block; mask: none; -webkit-mask: none; animation: dpBeam 3.4s ease-in-out infinite; transform-origin: 50% 100%; filter: blur(10px);
+  background: radial-gradient(ellipse 14% 60% at 16% 100%, var(--fo-a, #fff), transparent 80%), radial-gradient(ellipse 18% 75% at 50% 100%, var(--fo-a, #fff), transparent 80%), radial-gradient(ellipse 14% 60% at 84% 100%, var(--fo-a, #fff), transparent 80%); opacity: .6; }
+.tcg-card--full .tcg-fxo::before, .tcg-card--group .tcg-fxo::before { opacity: .35; }
+.tcg-card--astral .tcg-fxo::before { opacity: .9; }
+/* étincelles : traînées lumineuses qui s'élèvent haut au-dessus de la carte */
+.tcg-fxo b { clip-path: none !important; border-radius: 50% 50% 40% 40%; width: calc(var(--s) * .7); height: calc(var(--s) * 3.6); background: linear-gradient(to top, transparent, var(--fo, #fff)); filter: drop-shadow(0 0 4px var(--fo, #fff)); animation: dpSpark var(--t) ease-out infinite; animation-delay: var(--d); }
+.tcg-card--gold .tcg-fxo b { --fo: #ffc24a; } .tcg-card--secret .tcg-fxo b { --fo: #a77bff; filter: blur(2px) drop-shadow(0 0 6px #7b4be0); }
+.tcg-card--astral .tcg-fxo b:nth-child(3n) { --fo: #ff9ad0; } .tcg-card--astral .tcg-fxo b:nth-child(3n+1) { --fo: #8fd0ff; } .tcg-card--astral .tcg-fxo b:nth-child(3n+2) { --fo: #fff1b0; }
+/* foil prismatique doux, visible en permanence, intensifié au survol */
+.tcg-foil { display: block; -webkit-mask: none; mask: none; opacity: .3; mix-blend-mode: color-dodge; background: linear-gradient(115deg, transparent 20%, #ff3d97 32%, #ffe24a 40%, #3dffc8 48%, #3d8bff 56%, #b05cff 64%, transparent 76%) 0 0 / 300% 300% no-repeat; animation: dpPrism 7s ease-in-out infinite alternate; }
+.tcg-card:hover > .tcg-foil { opacity: .85; animation: none; background-position: var(--mx, 50%) var(--my, 50%); }
+.tcg-card--astral > .tcg-foil { opacity: .5; } .tcg-card--gold > .tcg-foil { mix-blend-mode: overlay; opacity: .6; }
+
+/* ═════════ v87 : PAROXYSME — profondeur 3D, paillettes, aurores, flammes, éclat balayant, rafales au survol ═════════ */
+@keyframes dpTwk { 0%,100% { transform: scale(0) rotate(0); opacity: 0; } 45% { transform: scale(1) rotate(45deg); opacity: 1; } 70% { transform: scale(.4) rotate(90deg); opacity: .5; } }
+@keyframes dpSweep2 { 0%,55% { transform: translateX(-130%) skewX(-18deg); opacity: 0; } 60% { opacity: 1; } 100% { transform: translateX(260%) skewX(-18deg); opacity: 0; } }
+@keyframes dpWisp { 0% { transform: translate(0,30px) scale(.7); opacity: 0; } 25% { opacity: .85; } 100% { transform: translate(var(--wx,10px),-170px) scale(1.5); opacity: 0; } }
+@keyframes dpAuroraW { 0%,100% { transform: translateX(-6%) skewY(-4deg) scaleY(.9); opacity: .55; } 50% { transform: translateX(6%) skewY(4deg) scaleY(1.15); opacity: .95; } }
+@keyframes dpBreath { 0%,100% { opacity: .5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
+@keyframes dpFlash { 0% { opacity: 0; } 12% { opacity: .9; } 100% { opacity: 0; } }
+
+/* profondeur : cadre, paillettes et particules flottent à des plans différents */
+.tcg-card--full, .tcg-card--legend, .tcg-card--gold, .tcg-card--secret, .tcg-card--astral, .tcg-card--group { transform-style: preserve-3d; }
+.tcg-card--full:hover, .tcg-card--legend:hover, .tcg-card--gold:hover, .tcg-card--secret:hover, .tcg-card--astral:hover, .tcg-card--group:hover { transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-12px) scale(1.07); }
+.tcg-card > .tcg-edge { transform: translateZ(26px) translate(calc(var(--px, 0) * 2px), calc(var(--py, 0) * 2px)); }
+.tcg-card > .tcg-spk { transform: translateZ(12px); }
+.tcg-card > .tcg-fxo { transform: translateZ(-40px) translate(calc(var(--px, 0) * -14px), calc(var(--py, 0) * -10px)); }
+.tcg-card > .tcg-fxo2 { transform: translateZ(-70px) translate(calc(var(--px, 0) * -26px), calc(var(--py, 0) * -18px)); }
+.tcg-card--astral > .tcg-card__art img, .tcg-card--gold > .tcg-card__art img, .tcg-card--secret > .tcg-card__art img, .tcg-card--legend > .tcg-card__art img, .tcg-card--full > .tcg-card__art img { transform: scale(1.12) translate(calc(var(--px, 0) * -9px), calc(var(--py, 0) * -9px)); transition: transform .18s ease-out; }
+.tcg-card .tcg-card__inner { transform: translateZ(18px); }
+
+/* paillettes qui scintillent à des endroits aléatoires (jamais en grille) */
+.tcg-spk { position: absolute; inset: 0; z-index: 6; pointer-events: none; overflow: hidden; border-radius: inherit; mix-blend-mode: screen; }
+.tcg-spk b { position: absolute; left: var(--x); top: var(--y); width: var(--s); height: var(--s); opacity: 0; background: #fff; clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%); filter: drop-shadow(0 0 3px #fff); animation: dpTwk var(--t) ease-in-out infinite; animation-delay: var(--d); }
+.tcg-card--gold .tcg-spk b { background: #fff1b0; filter: drop-shadow(0 0 4px #ffc84a); } .tcg-card--secret .tcg-spk b { background: #d9c4ff; filter: drop-shadow(0 0 4px #8a5cff); }
+.tcg-card--legend .tcg-spk b { background: #e4f6ff; filter: drop-shadow(0 0 4px #6cc4ff); }
+.tcg-card--astral .tcg-spk b:nth-child(3n) { background: #ffd0ea; } .tcg-card--astral .tcg-spk b:nth-child(3n+1) { background: #cfe4ff; }
+.tcg-card--astral .tcg-spk b { width: calc(var(--s) * 1.4); height: calc(var(--s) * 1.4); }
+.tcg-card:hover .tcg-spk b { animation-duration: calc(var(--t) * .45); }
+
+/* éclat qui balaie toute la carte, toutes les quelques secondes */
+.tcg-glare::after { content: ""; position: absolute; top: -10%; bottom: -10%; left: 0; width: 38%; pointer-events: none; mix-blend-mode: overlay; opacity: 0;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.75) 50%, transparent); animation: dpSweep2 5.5s ease-in-out infinite; }
+.tcg-card--gold .tcg-glare::after, .tcg-card--astral .tcg-glare::after { animation-duration: 4s; }
+.tcg-card .tcg-glare { opacity: 1; }
+.tcg-card .tcg-glare { background: none; }
+.tcg-card:hover .tcg-glare { background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.5), rgba(255,255,255,.1) 40%, transparent 65%); }
+.tcg-card:hover .tcg-glare::after { animation-duration: 1.8s; }
+
+/* décors extérieurs profonds, propres à chaque rareté */
+.tcg-fxo2 { position: absolute; inset: -70px -50px -40px; z-index: -2; pointer-events: none; }
+.tcg-fxo2::before, .tcg-fxo2::after { content: ""; position: absolute; inset: 0; pointer-events: none; filter: blur(16px); }
+/* Secrète : flammes violettes + fumée qui montent */
+.tcg-card--secret .tcg-fxo2::before { background: radial-gradient(ellipse 22% 38% at 20% 92%, rgba(130,70,255,.8), transparent 70%), radial-gradient(ellipse 18% 46% at 50% 96%, rgba(180,110,255,.85), transparent 70%), radial-gradient(ellipse 22% 36% at 82% 92%, rgba(110,60,230,.8), transparent 70%); animation: dpWisp 3.2s ease-out infinite; --wx: 14px; }
+.tcg-card--secret .tcg-fxo2::after { background: radial-gradient(ellipse 30% 30% at 30% 100%, rgba(30,10,70,.9), transparent 70%), radial-gradient(ellipse 30% 30% at 72% 100%, rgba(30,10,70,.9), transparent 70%); animation: dpWisp 4.6s ease-out infinite 1.2s; --wx: -16px; }
+/* Gold : poussière d'or et chaleur */
+.tcg-card--gold .tcg-fxo2::before { background: radial-gradient(ellipse 60% 46% at 50% 110%, rgba(255,196,60,.85), transparent 70%); animation: dpBreath 3s ease-in-out infinite; }
+.tcg-card--gold .tcg-fxo2::after { background: radial-gradient(ellipse 50% 40% at 50% -8%, rgba(255,228,140,.7), transparent 70%); animation: dpBreath 3s ease-in-out infinite 1.5s; }
+/* Légende : brume glaciale bleue + perle */
+.tcg-card--legend .tcg-fxo2::before { background: radial-gradient(ellipse 55% 40% at 20% 100%, rgba(120,200,255,.7), transparent 70%), radial-gradient(ellipse 55% 40% at 80% 0%, rgba(255,246,214,.6), transparent 70%); animation: dpBreath 4s ease-in-out infinite; }
+.tcg-card--legend .tcg-fxo2::after { background: radial-gradient(ellipse 45% 35% at 80% 100%, rgba(180,225,255,.6), transparent 70%); animation: dpBreath 4s ease-in-out infinite 2s; }
+/* Astrale : deux rubans d'aurore ondulants + voile cosmique */
+.tcg-card--astral .tcg-fxo2::before { inset: 20% -20% 30%; background: linear-gradient(95deg, transparent, rgba(255,110,170,.85), rgba(160,100,255,.85), rgba(90,220,255,.8), transparent); animation: dpAuroraW 6s ease-in-out infinite; }
+.tcg-card--astral .tcg-fxo2::after { inset: 45% -20% 0; background: linear-gradient(85deg, transparent, rgba(255,230,150,.8), rgba(120,255,200,.7), rgba(180,120,255,.8), transparent); animation: dpAuroraW 7.5s ease-in-out infinite reverse; }
+.tcg-card--full .tcg-fxo2::before { background: radial-gradient(ellipse 60% 40% at 50% 105%, rgba(190,210,255,.55), transparent 70%); animation: dpBreath 4s ease-in-out infinite; }
+.tcg-card--group .tcg-fxo2::before { background: radial-gradient(ellipse 60% 40% at 50% 105%, rgba(210,215,255,.5), transparent 70%); animation: dpBreath 4s ease-in-out infinite; }
+.tcg-card--full .tcg-fxo2::after, .tcg-card--group .tcg-fxo2::after { display: none; }
+
+/* rafale au survol : les étincelles jaillissent plus vite et plus fort, l'anneau d'onde s'accélère */
+.tcg-card:hover .tcg-fxo b { animation-duration: calc(var(--t) * .5); }
+.tcg-card:hover::before, .tcg-card:hover::after { animation-duration: 1.3s; }
+.tcg-card:hover .tcg-fxo::before { opacity: 1; }
+
+/* Astrale : voile cosmique vivant sur l'illustration + reflet nacré qui respire */
+.tcg-card--astral > .tcg-card__art::before { content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none; mix-blend-mode: soft-light;
+  background: linear-gradient(130deg, rgba(255,120,190,.55), transparent 35%, rgba(100,200,255,.5) 62%, transparent 85%, rgba(255,220,140,.5)) 0 0 / 220% 220%; animation: dpPrism 8s ease-in-out infinite alternate; }
+/* Secrète : l'illustration vibre légèrement (aberration chromatique brève) */
+@keyframes dpGlitch { 0%,92%,100% { filter: none; } 93% { filter: drop-shadow(3px 0 0 rgba(255,0,90,.65)) drop-shadow(-3px 0 0 rgba(0,220,255,.65)); } 96% { filter: drop-shadow(-2px 0 0 rgba(255,0,90,.6)) drop-shadow(2px 0 0 rgba(0,220,255,.6)); } }
+.tcg-card--secret > .tcg-card__art img { animation: dpGlitch 6s linear infinite; }
+/* réglage : le foil au survol ne doit pas laver l'illustration */
+.tcg-card:hover > .tcg-foil { opacity: .5; } .tcg-card--astral:hover > .tcg-foil { opacity: .38; } .tcg-card--gold:hover > .tcg-foil { opacity: .45; }
+.tcg-card--astral > .tcg-card__art::before { opacity: .65; }
+.tcg-card--secret > .tcg-foil, .tcg-card--secret:hover > .tcg-foil { mix-blend-mode: soft-light; }
+
+/* ═════════ v88 : bords personnalisés par ÉLÉMENT (flammes, vagues, givre, arcs, vent, roche, lianes…) ═════════ */
+.tcg-elb { position: absolute; inset: -10px; border-radius: 28px; z-index: -1; pointer-events: none; opacity: .92; }
+.tcg-fl .tcg-inner { stroke: var(--fe, var(--fg)); } .tcg-orn path, .tcg-orn circle { stroke: var(--fe, var(--fg)); } .tcg-orn .f { fill: var(--fe, var(--fg)); }
+.tcg-card--full > .tcg-elb, .tcg-card--group > .tcg-elb { opacity: .7; } .tcg-card--astral > .tcg-elb { display: none; }
+.tcg-card > .tcg-elb { transform: translateZ(-20px); }
+.tcg-card:hover .tcg-elb, .booster-reveal-shell .tcg-elb, .booster-card-arrival .tcg-elb { animation-play-state: running !important; }
+@keyframes elb-pyro { 0%,100% { filter: url(#elb-pyro-0); } 33% { filter: url(#elb-pyro-1); } 66% { filter: url(#elb-pyro-2); } }
+.tcg-el-pyro > .tcg-elb { box-shadow: inset 0 0 0 3px rgba(255,60,0,.6), inset 0 0 0 6px rgba(255,140,20,.85), inset 0 0 0 10px rgba(255,228,120,.96); filter: url(#elb-pyro-0); animation: elb-pyro .5s steps(1) infinite paused; }
+.tcg-el-pyro { --cm: #ff9a3c; --fo: #ff9a3c; }
+@keyframes elb-hydro { 0%,100% { filter: url(#elb-hydro-0); } 33% { filter: url(#elb-hydro-1); } 66% { filter: url(#elb-hydro-2); } }
+.tcg-el-hydro > .tcg-elb { box-shadow: inset 0 0 0 3px rgba(50,150,255,.55), inset 0 0 0 6px rgba(80,200,255,.8), inset 0 0 0 10px rgba(205,246,255,.92); filter: url(#elb-hydro-0); animation: elb-hydro 1.1s steps(1) infinite paused; }
+.tcg-el-hydro { --cm: #7fd6ff; --fo: #7fd6ff; }
+@keyframes elb-cryo { 0%,100% { filter: url(#elb-cryo-0); } 33% { filter: url(#elb-cryo-1); } 66% { filter: url(#elb-cryo-2); } }
+.tcg-el-cryo > .tcg-elb { box-shadow: inset 0 0 0 3px rgba(140,215,255,.65), inset 0 0 0 6px rgba(200,240,255,.88), inset 0 0 0 10px rgba(255,255,255,.97); filter: url(#elb-cryo-0); animation: elb-cryo 1.6s steps(1) infinite paused; }
+.tcg-el-cryo { --cm: #e8f8ff; --fo: #e8f8ff; }
+@keyframes elb-electro { 0%,100% { filter: url(#elb-electro-0); } 33% { filter: url(#elb-electro-1); } 66% { filter: url(#elb-electro-2); } }
+.tcg-el-electro > .tcg-elb { box-shadow: inset 0 0 0 3px rgba(150,70,255,.75), inset 0 0 0 6px rgba(200,140,255,.88), inset 0 0 0 10px rgba(255,255,255,.97); filter: url(#elb-electro-0); animation: elb-electro .22s steps(1) infinite paused; }
+.tcg-el-electro { --cm: #d9b8ff; --fo: #d9b8ff; }
+@keyframes elb-anemo { 0%,100% { filter: url(#elb-anemo-0); } 33% { filter: url(#elb-anemo-1); } 66% { filter: url(#elb-anemo-2); } }
+.tcg-el-anemo > .tcg-elb { box-shadow: inset 0 0 0 3px rgba(110,250,195,.5), inset 0 0 0 6px rgba(170,255,225,.75), inset 0 0 0 10px rgba(238,255,250,.92); filter: url(#elb-anemo-0); animation: elb-anemo .9s steps(1) infinite paused; }
+.tcg-el-anemo { --cm: #b8ffe6; --fo: #b8ffe6; }
+@keyframes elb-geo { 0%,100% { filter: url(#elb-geo-0); } 33% { filter: url(#elb-geo-1); } 66% { filter: url(#elb-geo-2); } }
+.tcg-el-geo > .tcg-elb { box-shadow: inset 0 0 0 3px rgba(170,110,20,.75), inset 0 0 0 6px rgba(240,180,50,.88), inset 0 0 0 10px rgba(255,232,150,.96); filter: url(#elb-geo-0); animation: elb-geo 1.8s steps(1) infinite paused; }
+.tcg-el-geo { --cm: #ffd86a; --fo: #ffd86a; }
+@keyframes elb-dendro { 0%,100% { filter: url(#elb-dendro-0); } 33% { filter: url(#elb-dendro-1); } 66% { filter: url(#elb-dendro-2); } }
+.tcg-el-dendro > .tcg-elb { box-shadow: inset 0 0 0 3px rgba(50,160,40,.65), inset 0 0 0 6px rgba(130,220,60,.85), inset 0 0 0 10px rgba(225,255,160,.94); filter: url(#elb-dendro-0); animation: elb-dendro 1.1s steps(1) infinite paused; }
+.tcg-el-dendro { --cm: #b7f06a; --fo: #b7f06a; }
+@keyframes elb-physical { 0%,100% { filter: url(#elb-physical-0); } 33% { filter: url(#elb-physical-1); } 66% { filter: url(#elb-physical-2); } }
+.tcg-el-physical > .tcg-elb { box-shadow: inset 0 0 0 3px rgba(120,128,150,.6), inset 0 0 0 6px rgba(190,198,215,.85), inset 0 0 0 10px rgba(255,255,255,.95); filter: url(#elb-physical-0); animation: elb-physical 1.6s steps(1) infinite paused; }
+.tcg-el-physical { --cm: #e6eaf5; --fo: #e6eaf5; }
+@keyframes elb-quantum { 0%,100% { filter: url(#elb-quantum-0); } 33% { filter: url(#elb-quantum-1); } 66% { filter: url(#elb-quantum-2); } }
+.tcg-el-quantum > .tcg-elb { box-shadow: inset 0 0 0 3px rgba(110,50,190,.7), inset 0 0 0 6px rgba(200,100,255,.85), inset 0 0 0 10px rgba(255,195,255,.94); filter: url(#elb-quantum-0); animation: elb-quantum .3s steps(1) infinite paused; }
+.tcg-el-quantum { --cm: #e1a0ff; --fo: #e1a0ff; }
+@keyframes elb-imaginary { 0%,100% { filter: url(#elb-imaginary-0); } 33% { filter: url(#elb-imaginary-1); } 66% { filter: url(#elb-imaginary-2); } }
+.tcg-el-imaginary > .tcg-elb { box-shadow: inset 0 0 0 3px rgba(235,195,30,.6), inset 0 0 0 6px rgba(255,230,100,.85), inset 0 0 0 10px rgba(255,252,205,.94); filter: url(#elb-imaginary-0); animation: elb-imaginary 1.2s steps(1) infinite paused; }
+.tcg-el-imaginary { --cm: #fff0a0; --fo: #fff0a0; }
+/* particules propres à chaque élément */
+.tcg-el-hydro .tcg-fxo b { border-radius: 50%; height: calc(var(--s) * 1.5); } .tcg-el-hydro .tcg-fxo b { animation-name: dpSpark; }
+.tcg-el-cryo .tcg-fxo b { clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%) !important; height: calc(var(--s) * 1.8); background: var(--fo); }
+.tcg-el-electro .tcg-fxo b { width: 2px; height: calc(var(--s) * 4); background: linear-gradient(to top, transparent, #fff, #c9a0ff); }
+.tcg-el-dendro .tcg-fxo b { border-radius: 0 100% 0 100%; height: calc(var(--s) * 1.4); width: calc(var(--s) * 1.1); background: var(--fo); }
+.tcg-el-geo .tcg-fxo b { clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%) !important; height: calc(var(--s) * 1.2); width: calc(var(--s) * 1.2); background: var(--fo); }
+.tcg-el-anemo .tcg-fxo b { height: 2px; width: calc(var(--s) * 4); border-radius: 2px; background: linear-gradient(90deg, transparent, var(--fo), transparent); }
+.tcg-el-quantum .tcg-fxo b { border-radius: 0; width: calc(var(--s) * 1.3); height: calc(var(--s) * 1.3); background: var(--fo); }
+.tcg-el-pyro .tcg-fxo b { background: linear-gradient(to top, rgba(255,60,0,0), #ff9a3c 60%, #ffe27a); }
+@media (prefers-reduced-motion: reduce) { .tcg-elb { animation: none !important; } }
+
+/* v89 : contours élémentaires fins et soignés ; touche légère sur les Épiques */
+.tcg-elb { opacity: .85; }
+.tcg-card--full > .tcg-elb, .tcg-card--group > .tcg-elb { opacity: .6; }
+.tcg-card--rare .tcg-glare::after { display: none; }
+.tcg-card--epic .tcg-spk { mix-blend-mode: screen; opacity: .8; }
+.tcg-card--epic .tcg-spk b { filter: drop-shadow(0 0 3px #e4c8ff); background: #f3e3ff; }
+.tcg-card--epic .tcg-glare::after { animation-duration: 8s; opacity: 0; }
+@keyframes dpEpicRim { 0%,100% { box-shadow: 0 12px 28px rgba(0,0,0,.55), inset 0 0 10px rgba(255,225,150,.4); } 50% { box-shadow: 0 12px 28px rgba(0,0,0,.55), inset 0 0 18px rgba(255,225,150,.75); } }
+.tcg-card--epic { animation: dpEpicRim 4.5s ease-in-out infinite !important; }
+.tcg-card--full > .tcg-elb, .tcg-card--group > .tcg-elb { opacity: .9; }
+
+/* v90 : plus de grosse bande élémentaire — un filet fin (1,6 px) qui vibre selon l'élément */
+.tcg-elb { display: none !important; }
+.tcg-wob { vector-effect: non-scaling-stroke; fill: none; stroke-width: 1.6; stroke-linejoin: round; opacity: .95; }
+.tcg-el-pyro .tcg-wob { filter: url(#elb-pyro-0); animation: elb-pyro .45s steps(1) infinite paused; }
+.tcg-el-hydro .tcg-wob { filter: url(#elb-hydro-0); animation: elb-hydro 1s steps(1) infinite paused; }
+.tcg-el-cryo .tcg-wob { filter: url(#elb-cryo-0); animation: elb-cryo 1.5s steps(1) infinite paused; }
+.tcg-el-electro .tcg-wob { filter: url(#elb-electro-0); animation: elb-electro .2s steps(1) infinite paused; }
+.tcg-el-anemo .tcg-wob { filter: url(#elb-anemo-0); animation: elb-anemo .8s steps(1) infinite paused; }
+.tcg-el-geo .tcg-wob { filter: url(#elb-geo-0); animation: elb-geo 1.8s steps(1) infinite paused; }
+.tcg-el-dendro .tcg-wob { filter: url(#elb-dendro-0); animation: elb-dendro 1s steps(1) infinite paused; }
+.tcg-el-physical .tcg-wob { filter: url(#elb-physical-0); animation: elb-physical 1.6s steps(1) infinite paused; }
+.tcg-el-quantum .tcg-wob { filter: url(#elb-quantum-0); animation: elb-quantum .28s steps(1) infinite paused; }
+.tcg-el-imaginary .tcg-wob { filter: url(#elb-imaginary-0); animation: elb-imaginary 1.1s steps(1) infinite paused; }
+.tcg-card:hover .tcg-wob, .booster-reveal-shell .tcg-wob, .booster-card-arrival .tcg-wob { animation-play-state: running !important; }
+.tcg-card--full .tcg-wob, .tcg-card--group .tcg-wob { opacity: .8; }
+
+/* v91 : le cadre ne recouvre plus l'icône d'élément ni les PV — le contenu est décalé vers l'intérieur */
+.tcg-card--full .tcg-card__inner, .tcg-card--group .tcg-card__inner, .tcg-card--gold .tcg-card__inner, .tcg-card--secret .tcg-card__inner, .tcg-card--legend .tcg-card__inner, .tcg-card--astral .tcg-card__inner { padding: 24px 22px 20px !important; }
+.tcg-card--full .tcg-card__head, .tcg-card--group .tcg-card__head, .tcg-card--gold .tcg-card__head, .tcg-card--secret .tcg-card__head, .tcg-card--legend .tcg-card__head, .tcg-card--astral .tcg-card__head { margin-top: 0; }
+.tcg-card--astral .tcg-ast-glyphs { display: none; }
+.tcg-card--astral .tcg-ast-ribbon { right: 9px; }
+
+/* ═════════ v92 : cadres aux coins ARRONDIS (comme la carte) + bords refaits : Gold, Secrète, Full Art ═════════ */
+@keyframes dpFlow { to { stroke-dashoffset: -28; } }
+@keyframes dpFlow2 { to { stroke-dashoffset: 28; } }
+@keyframes dpFlick { 0%,100% { opacity: 1; } 8% { opacity: .15; } 12% { opacity: 1; } 47% { opacity: .9; } 50% { opacity: .1; } 54% { opacity: 1; } }
+@keyframes dpVein { 0%,100% { stroke-opacity: .35; } 50% { stroke-opacity: 1; } }
+@keyframes dpHolo { to { filter: hue-rotate(360deg); } }
+.tcg-card--full, .tcg-card--secret, .tcg-card--gold, .tcg-card--legend, .tcg-card--astral, .tcg-card--group { border-radius: 20px; }
+.tcg-fl .tcg-third { stroke-width: .8; opacity: .6; }
+.tcg-bead { fill: var(--fa, var(--fg)) !important; stroke: none !important; }
+.tcg-fl .tcg-orn .f { stroke: none; }
+.tcg-wob { display: none !important; }
+.tcg-orn .tcg-gl { transform-box: fill-box; transform-origin: center; animation: dpGlint 2.8s ease-in-out infinite; } .tcg-orn g:nth-child(2) .tcg-gl { animation-delay: .7s; } .tcg-orn g:nth-child(3) .tcg-gl { animation-delay: 1.4s; } .tcg-orn g:nth-child(4) .tcg-gl { animation-delay: 2.1s; }
+/* GOLD : or liquide — filet doré qui s'illumine par vagues, perles de la couleur de l'élément qui scintillent, comètes d'or */
+.tcg-card--gold .tcg-outline { stroke-width: 2.2; animation: dpVein 3.2s ease-in-out infinite; }
+.tcg-card--gold .tcg-third { animation: dpVein 3.2s ease-in-out infinite .8s; }
+.tcg-card--gold .tcg-bead { animation: dpGlint 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.tcg-card--gold .tcg-comet { stroke: #fff3b0; stroke-width: 3; stroke-dasharray: 9 91; }
+/* SECRÈTE : épines gothiques qui papillotent, veines d'énergie violette qui coulent, filet qui bat */
+.tcg-th { animation: dpFlick 5s steps(1) infinite; } .tcg-orn g:nth-child(2) .tcg-th { animation-delay: 1.3s; } .tcg-orn g:nth-child(3) .tcg-th { animation-delay: 2.4s; } .tcg-orn g:nth-child(4) .tcg-th { animation-delay: 3.6s; }
+.tcg-vein { vector-effect: non-scaling-stroke; fill: none; stroke: #b48cff; stroke-width: 2; stroke-dasharray: 10 18; stroke-linecap: round; animation: dpFlow 1.6s linear infinite; filter: drop-shadow(0 0 3px #7b4be0); }
+.tcg-card--secret .tcg-outline { animation: dpVein 2.6s ease-in-out infinite; }
+.tcg-card--secret .tcg-comet { stroke: #d9c4ff; }
+/* FULL ART : liséré holographique irisé qui change de couleur en continu */
+.tcg-holo { vector-effect: non-scaling-stroke; fill: none; stroke: url(#fr); stroke-width: 1.8; opacity: .9; animation: dpHolo 5s linear infinite; }
+.tcg-card--full .tcg-outline { opacity: .7; }
+.tcg-card--full .tcg-comet { stroke-dasharray: 6 94; }
+.tcg-card--full:hover .tcg-holo { stroke-width: 2.6; }
+/* même vitesse accélérée au survol */
+.tcg-card:hover .tcg-vein { animation-duration: .6s; } .tcg-card:hover .tcg-holo { animation-duration: 1.8s; }
+@media (prefers-reduced-motion: reduce) { .tcg-vein, .tcg-holo, .tcg-th, .tcg-bead, .tcg-comet { animation: none !important; } }
+.tcg-vein { stroke-width: 1.3; stroke-dasharray: 22 34; opacity: .75; }
+
+/* ═════════ v93 : ÉCHELLE DE RARETÉ — l'intensité des effets de bord monte à chaque palier, visible de loin ═════════
+   Commune : rien · Super : reflet argent · Rare : halo bleu + 1 onde · Épique : halo violet + ondes + braises
+   Full Art : halo irisé · Groupe : double onde · Légende : brume glaciale + pétales · Gold : fournaise d'or · Secrète : fumée abyssale · Astrale : tout */
+.tcg-card--super, .tcg-card--rare, .tcg-card--epic { overflow: visible; }
+.tcg-card--super > .tcg-card__inner, .tcg-card--rare > .tcg-card__inner, .tcg-card--epic > .tcg-card__inner { border-radius: inherit; }
+/* halo = rectangle flouté derrière la carte, qui déborde de --bs ; couleur --bc ; opacité --bo */
+.tcg-fxo::after { inset: calc(44px - var(--bs, 0px)) !important; border-radius: 34px; filter: blur(var(--bb, 20px)); background: var(--bc, transparent) !important; opacity: var(--bo, 0) !important; animation: dpPulse 4.2s ease-in-out infinite; }
+.tcg-fxo::before { opacity: var(--bm, 0) !important; }
+.tcg-card--super  { --bs: 5px;  --bb: 10px; --bo: .28; --bc: #d6dff5; --bm: 0;   --fo: #e8eeff; }
+.tcg-card--rare   { --bs: 10px; --bb: 14px; --bo: .42; --bc: #3d92ff; --bm: 0;   --fo: #8ec4ff; --fo-a: rgba(80,160,255,.5); }
+.tcg-card--epic   { --bs: 16px; --bb: 18px; --bo: .52; --bc: #a45cff; --bm: .35; --fo: #e0b8ff; --fo-a: rgba(180,110,255,.55); }
+.tcg-card--full   { --bs: 22px; --bb: 20px; --bo: .5;  --bc: linear-gradient(120deg, #ff5fa8, #ffd45f, #5fffc8, #5f9bff, #c05fff); --bm: .4; }
+.tcg-card--group  { --bs: 22px; --bb: 20px; --bo: .45; --bc: #cdd4ff; --bm: .4; }
+.tcg-card--legend { --bs: 28px; --bb: 22px; --bo: .6;  --bc: linear-gradient(160deg, #7fd0ff, #fff6d6, #7fd0ff); --bm: .6; }
+.tcg-card--gold   { --bs: 32px; --bb: 24px; --bo: .75; --bc: linear-gradient(180deg, #ffe07a, #ff9d1a); --bm: .85; }
+.tcg-card--secret { --bs: 32px; --bb: 24px; --bo: .7;  --bc: linear-gradient(180deg, #8a4dff, #2b0f66); --bm: .8; }
+.tcg-card--astral { --bs: 40px; --bb: 28px; --bo: .9;  --bc: linear-gradient(120deg, #ff5fa8, #ffd45f, #5fffc8, #5f9bff, #c05fff); --bm: 1; }
+.tcg-card--full .tcg-fxo::after, .tcg-card--astral .tcg-fxo::after { animation: dpPulse 4.2s ease-in-out infinite, dpHue 7s linear infinite; }
+.tcg-card--full:hover, .tcg-card--legend:hover, .tcg-card--gold:hover, .tcg-card--secret:hover, .tcg-card--astral:hover, .tcg-card--epic:hover, .tcg-card--rare:hover { --bo: 1; }
+/* ondes qui partent du bord : Rare 1, Épique 2, Groupe 2 ; les autres gardent leurs anneaux */
+.tcg-card--rare .tcg-fxo2::after, .tcg-card--epic .tcg-fxo2::after, .tcg-card--epic .tcg-fxo2::before { display: block; filter: none; inset: 68px 48px 38px; border-radius: 22px; border: 2px solid var(--fo, #fff); background: none; opacity: 0; animation: dpRing 4.4s ease-out infinite; }
+.tcg-card--epic .tcg-fxo2::before { animation-delay: 2.2s; border-color: #ffd98a; }
+.tcg-card--super .tcg-fxo2 { display: none; }
+/* Super : un reflet argent traverse le bord de temps en temps */
+.tcg-card--super .tcg-glare::after { display: block; opacity: 0; animation-duration: 7s; }
+/* particules : plus la rareté monte, plus elles sont hautes, grosses et rapides */
+.tcg-card--super .tcg-fxo b, .tcg-card--rare .tcg-fxo b { transform-origin: bottom; animation-duration: calc(var(--t) * 1.5); }
+.tcg-card--super .tcg-fxo b { opacity: 0; filter: none; }
+.tcg-card--rare .tcg-fxo b { width: calc(var(--s) * .55); height: calc(var(--s) * 2.4); }
+.tcg-card--epic .tcg-fxo b { background: linear-gradient(to top, transparent, #e0b8ff 60%, #ffe3a8); }
+.tcg-card--gold .tcg-fxo b { height: calc(var(--s) * 5); }
+.tcg-card--astral .tcg-fxo b { height: calc(var(--s) * 4.5); width: calc(var(--s) * .9); }
+/* réglage : halos plus fins, la hiérarchie reste lisible */
+.tcg-card--rare { --bo: .3; --bs: 8px; } .tcg-card--epic { --bo: .4; --bs: 12px; } .tcg-card--full { --bo: .38; --bs: 16px; } .tcg-card--group { --bs: 16px; --bo: .36; }
+.tcg-card--legend { --bo: .5; --bs: 20px; } .tcg-card--gold { --bo: .6; --bs: 22px; } .tcg-card--secret { --bo: .58; --bs: 22px; } .tcg-card--astral { --bo: .72; --bs: 30px; }
+
+/* ═════════ v94 : fini les gros halos sur Astrale et Full Art — effets originaux, fins, en dehors du cadre ═════════ */
+.tcg-card--astral, .tcg-card--full, .tcg-card--astral:hover, .tcg-card--full:hover { --bo: 0; --bm: 0; }
+.tcg-card--astral::before, .tcg-card--astral::after, .tcg-card--full::before, .tcg-card--full::after { display: none !important; }
+.tcg-card--astral > .tcg-fxo2, .tcg-card--full > .tcg-fxo2, .tcg-card--astral .tcg-fxo::before, .tcg-card--full .tcg-fxo::before, .tcg-card--astral .tcg-fxo::after, .tcg-card--full .tcg-fxo::after { display: none !important; }
+.tcg-card--astral .tcg-aurora, .tcg-card--astral .tcg-ast-aurora { opacity: .35; }
+/* ASTRALE : une constellation vivante — étoiles à quatre branches et fins traits qui se tracent autour de la carte */
+@keyframes dpDraw { 0% { stroke-dashoffset: 100; opacity: 0; } 25% { opacity: .8; } 60%,100% { stroke-dashoffset: 0; opacity: .8; } 85% { opacity: .25; } 100% { opacity: 0; } }
+.tcg-const { position: absolute; inset: -40px; width: calc(100% + 80px); height: calc(100% + 80px); z-index: -1; pointer-events: none; overflow: visible; }
+.tcg-const line { vector-effect: non-scaling-stroke; stroke: #ffe9b8; stroke-width: 1; stroke-dasharray: 100; stroke-dashoffset: 100; opacity: 0; animation: dpDraw 6s ease-in-out infinite; animation-delay: var(--d); }
+.tcg-const path { fill: #fff6dc; transform-box: fill-box; transform-origin: center; animation: dpGlint 3.2s ease-in-out infinite; animation-delay: var(--d); filter: drop-shadow(0 0 3px #ffd98a); }
+.tcg-card--astral:hover .tcg-const line { animation-duration: 2.6s; }
+/* FULL ART : éclats de prisme — petits cristaux de verre qui flottent et dispersent la lumière, avec un fin rayon spectral */
+@keyframes dpPrismFloat { 0%,100% { transform: translateY(0) rotate(0deg); opacity: .55; } 50% { transform: translateY(-14px) rotate(35deg); opacity: 1; } }
+.tcg-prism { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.tcg-prism b { position: absolute; width: var(--s); height: calc(var(--s) * 1.15); clip-path: polygon(50% 0, 100% 100%, 0 100%); background: linear-gradient(135deg, #ff7ab8, #ffe27a, #7affd0, #7ab4ff, #c07aff); animation: dpPrismFloat var(--t) ease-in-out infinite, dpHue 6s linear infinite; animation-delay: var(--d); opacity: .8; }
+.tcg-prism::before { content: ""; position: absolute; left: -62px; top: 14%; width: 96px; height: 1.5px; transform: rotate(-32deg); transform-origin: right center; background: linear-gradient(90deg, transparent, #ff7ab8, #ffe27a, #7affd0, #7ab4ff, #c07aff); animation: dpBeam 3.6s ease-in-out infinite; }
+.tcg-prism::after { content: ""; position: absolute; right: -62px; bottom: 16%; width: 96px; height: 1.5px; transform: rotate(-32deg); transform-origin: left center; background: linear-gradient(90deg, #c07aff, #7ab4ff, #7affd0, #ffe27a, #ff7ab8, transparent); animation: dpBeam 3.6s ease-in-out infinite 1.8s; }
+.tcg-card--full:hover .tcg-prism b { animation-duration: 2.4s, 3s; }
+@media (prefers-reduced-motion: reduce) { .tcg-const *, .tcg-prism b, .tcg-prism::before, .tcg-prism::after { animation: none !important; } }
+

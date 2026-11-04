@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: astralis-pocket
+    runtime: python
+    plan: free
+    buildCommand: "echo 'Astralis uses the Python standard library only'"
+    startCommand: "python server.py"
+    healthCheckPath: /health
+    envVars:
+      - key: ASTRALIS_PASSWORD
+        sync: false

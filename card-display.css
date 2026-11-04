@@ -1,0 +1,7 @@
+/* Le classeur montre les cartes sans les effets réservés au reveal et au zoom. */
+.binder-card .tcg-card--static,.binder-card .tcg-card--static:hover{animation:none!important;transform:none!important;transition:none!important;filter:none!important;box-shadow:0 8px 24px #0008!important;will-change:auto!important}
+.binder-card .tcg-card--static::before,.binder-card .tcg-card--static::after{animation:none!important;filter:none!important;opacity:0!important}
+.binder-card .tcg-card--static *{animation:none!important;transition:none!important;will-change:auto!important}
+.binder-card .tcg-card--static .tcg-fxo,.binder-card .tcg-card--static .tcg-fxo2,.binder-card .tcg-card--static .tcg-foil,.binder-card .tcg-card--static .tcg-glare,.binder-card .tcg-card--static .tcg-spk,.binder-card .tcg-card--static .tcg-sparkles,.binder-card .tcg-card--static .tcg-const,.binder-card .tcg-card--static [class*="tcg-ast-"],.binder-card .tcg-card--static .tcg-aura{display:none!important;animation:none!important;opacity:0!important}
+.binder-card.rarity-astral{filter:none!important}
+.binder-card .tcg-card--static .tcg-card__art img{object-fit:cover}

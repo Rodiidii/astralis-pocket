@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1500" preserveAspectRatio="xMidYMid slice">
+<defs><linearGradient id="shade" x2="0" y2="1"><stop stop-color="#071020" stop-opacity=".06"/><stop offset=".58" stop-color="#080d1c" stop-opacity=".12"/><stop offset="1" stop-color="#060914" stop-opacity=".62"/></linearGradient><clipPath id="a"><rect width="300" height="1500"/></clipPath><clipPath id="b"><rect x="300" width="300" height="1500"/></clipPath><clipPath id="c"><rect x="600" width="300" height="1500"/></clipPath></defs>
+<g clip-path="url(#a)"><image href="genshin.png" width="300" height="1500" preserveAspectRatio="xMidYMid slice"/></g>
+<g clip-path="url(#b)"><image href="hsr.png" x="300" width="300" height="1500" preserveAspectRatio="xMidYMid slice"/></g>
+<g clip-path="url(#c)"><image href="wuthering-waves.png" x="600" width="300" height="1500" preserveAspectRatio="xMidYMid slice"/></g>
+<rect width="900" height="1500" fill="url(#shade)"/><path d="M300 0v1500M600 0v1500" stroke="#e9dcbb" stroke-opacity=".7" stroke-width="3"/>
+</svg>

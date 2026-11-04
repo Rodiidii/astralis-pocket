@@ -1,0 +1,35 @@
+/* card-polish.css */
+/* Astralis v76 · cartes : commune encadrée, groupes en tranches, secrète & gold avec illustration plein cadre */
+
+/* Commune : le splash est fondu dans la carte */
+.tcg-card--framed { padding: 0; border: 3px solid rgba(255,255,255,.38); background: linear-gradient(160deg, var(--c1), var(--c2)); }
+.tcg-card--framed > .tcg-card__art { position: absolute; inset: 7px; z-index: 0; flex: none; border-radius: 12px; box-shadow: none; overflow: hidden; }
+.tcg-card--framed > .tcg-card__art::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; mix-blend-mode: soft-light; opacity: .9;
+  background: radial-gradient(ellipse at 50% 105%, var(--c1), transparent 62%), linear-gradient(180deg, rgba(255,255,255,.18), transparent 35%); }
+.tcg-card--framed::before { content: ""; position: absolute; inset: 7px; z-index: 3; pointer-events: none; border-radius: 12px;
+  background: radial-gradient(circle, rgba(255,255,255,.22) 0 1px, transparent 1.6px) 0 0 / 10px 10px;
+  -webkit-mask-image: linear-gradient(transparent 52%, #000); mask-image: linear-gradient(transparent 52%, #000); opacity: .5; }
+.tcg-card--framed .tcg-card__inner { inset: 7px; z-index: 4; padding: 12px 13px 10px; border-radius: 12px;
+  background: linear-gradient(180deg, rgba(0,0,0,.55), transparent 20%, transparent 42%, rgba(0,0,0,.5) 62%, rgba(0,0,0,.88)); }
+.tcg-card--framed .tcg-card__inner::after { content: ""; position: absolute; inset: 0; border-radius: 12px; pointer-events: none; box-shadow: inset 0 0 0 1px rgba(255,255,255,.35), inset 0 0 22px rgba(0,0,0,.35); }
+.tcg-card--framed .tcg-skills { margin-top: auto; }
+.tcg-card--framed .tcg-card__head, .tcg-card--framed .tcg-skill { text-shadow: 0 1px 5px rgba(0,0,0,.85); }
+
+/* Groupes : jusqu'à trois personnages en tranches inclinées */
+.tcg-gs { --w: calc(100% / var(--n) + 14%); position: absolute; top: 0; bottom: 0; width: var(--w); left: calc(var(--i) * (100% - var(--w)) / var(--nm1)); overflow: hidden; }
+.tcg-gs.first { clip-path: polygon(0 0, 100% 0, 88% 100%, 0 100%); }
+.tcg-gs.mid   { clip-path: polygon(12% 0, 100% 0, 88% 100%, 0 100%); }
+.tcg-gs.last  { clip-path: polygon(12% 0, 100% 0, 100% 100%, 0 100%); }
+.tcg-gs img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 14%; }
+
+/* Secrète / Gold : l'image se glisse sous les effets */
+.tcg-card--secret > .tcg-card__art .booster-card-image, .tcg-card--gold > .tcg-card__art .booster-card-image { z-index: 1; object-position: center 12%; }
+.tcg-card--secret .tcg-corner, .tcg-card--secret .tcg-bolt { z-index: 6; }
+
+/* Gold : le duotone doré passe devant le voile sombre générique des cartes plein cadre */
+.tcg-card--gold.tcg-card--immersive > .tcg-card__art::after { background: linear-gradient(135deg, #7a5214, #f9dd7a 28%, #fff6c4 45%, #d9a521 62%, #7a5214); }
+
+/* Cartes plein cadre sans fan art : indication du nom de fichier attendu */
+.tcg-fan-hint { position: absolute; left: 8%; right: 8%; top: 30%; z-index: 4; text-align: center; font: 700 .62rem var(--f-ui, sans-serif); letter-spacing: .3em; color: #ffffffc0; text-shadow: 0 1px 6px #000; pointer-events: none; }
+.tcg-fan-hint small { display: block; margin-top: 7px; font-weight: 500; letter-spacing: .03em; font-size: .56rem; opacity: .75; word-break: break-all; }
+

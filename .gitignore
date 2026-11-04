@@ -1,0 +1,9 @@
+__pycache__/
+.cache/
+assets/cache/
+assets/user/
+*.py[cod]
+*.dpapi
+.env
+.env.*
+PROMPT_CLAUDE_DESIGN.txt

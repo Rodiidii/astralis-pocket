@@ -1,0 +1,28 @@
+/* card-pokemon.css */
+/* Astralis v77 · présentation façon carte Pokémon : typo, nom/PV, attaques avec énergie + dégâts, pied de carte */
+.tcg-card { font-family: "Cabin", "Gill Sans", "Gill Sans MT", "Trebuchet MS", sans-serif; }
+.tcg-card .tcg-card__name { font-family: "Cabin", "Gill Sans", sans-serif; font-weight: 700; font-size: 1.15rem; letter-spacing: 0; line-height: 1; text-shadow: 0 1px 2px rgba(0,0,0,.65); }
+.tcg-card .tcg-card__hp { display: inline-flex; align-items: baseline; gap: 3px; font-family: "Barlow Condensed", "Cabin", sans-serif; font-weight: 700; font-size: 1.55rem; line-height: 1; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.7); }
+.tcg-card .tcg-card__hp small { font-family: "Cabin", sans-serif; font-size: .55rem; font-weight: 700; letter-spacing: .04em; color: #ff6a5c; text-shadow: none; }
+.tcg-card .tcg-badge { box-shadow: 0 0 0 2px rgba(255,255,255,.75), 0 1px 4px rgba(0,0,0,.5); }
+
+.tcg-skill--pk { padding: 5px 0 6px; }
+.tcg-skill--pk + .tcg-skill--pk { border-top: 1px solid rgba(255,255,255,.28); }
+.tcg-skill--pk .tcg-skill__row { display: grid; grid-template-columns: minmax(20px, auto) 1fr auto; align-items: center; gap: 8px; font-size: 1rem; letter-spacing: 0; }
+.tcg-skill--pk .tcg-en { display: inline-flex; gap: 2px; min-width: 20px; }
+.tcg-skill--pk .tcg-en i { width: 15px; height: 15px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff 0 10%, var(--card-accent, #ddd) 38%, color-mix(in srgb, var(--card-accent, #888) 55%, #000) 100%); box-shadow: 0 0 0 1.5px rgba(255,255,255,.85), 0 1px 3px rgba(0,0,0,.6); }
+.tcg-skill--pk .tcg-move-name { margin: 0; font-weight: 700; font-size: 1rem; line-height: 1.05; text-shadow: 0 1px 2px rgba(0,0,0,.6); }
+.tcg-skill--pk .tcg-skill__row em { font-family: "Barlow Condensed", "Cabin", sans-serif; font-style: normal; font-weight: 700; font-size: 1.55rem; line-height: 1; text-shadow: 0 1px 3px rgba(0,0,0,.7); }
+.tcg-skill--pk > p { margin: 3px 0 0; font-size: .7rem; line-height: 1.28; font-style: normal; font-weight: 500; opacity: .94; text-shadow: 0 1px 2px rgba(0,0,0,.6); }
+
+.tcg-pk-info { display: grid; grid-template-columns: 1.1fr 1.1fr .9fr; gap: 4px; margin-top: 5px; padding-top: 5px; border-top: 1px solid rgba(255,255,255,.35); font-size: .72rem; font-weight: 700; text-align: center; text-shadow: 0 1px 2px rgba(0,0,0,.6); }
+.tcg-pk-info small { display: block; font-size: .46rem; font-weight: 700; letter-spacing: .08em; opacity: .85; margin-bottom: 2px; }
+.tcg-pk-info i { display: inline-block; width: 11px; height: 11px; margin: 0 2px; border-radius: 50%; vertical-align: -1px; box-shadow: 0 0 0 1.2px #fff; }
+.tcg-pk-info .tcg-pk-dot { background: #eee; }
+
+.tcg-card .tcg-card__foot { font-family: "Cabin", sans-serif; font-size: .58rem; font-weight: 700; letter-spacing: .04em; opacity: .92; text-shadow: 0 1px 2px rgba(0,0,0,.7); }
+.tcg-card .tcg-card__foot span:last-child { font-family: "Barlow Condensed", "Cabin", sans-serif; font-size: .7rem; letter-spacing: .08em; }
+
+.tcg-card--astral .tcg-card__name { text-shadow: none; }
+.tcg-card .tcg-fan-hint { top: 52%; }
+
