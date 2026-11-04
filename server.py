@@ -873,6 +873,11 @@ class Handler(SimpleHTTPRequestHandler):
     def _host_auth_ok(self) -> bool:
         password = os.environ.get("ASTRALIS_PASSWORD", "")
         if not (os.environ.get("RENDER") or password): return True
+        if os.environ.get("RENDER") and len(password) < 16:
+            self.send_response(503)
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+            return False
         expected = "Basic " + __import__("base64").b64encode(("astralis:" + password).encode()).decode()
         if secrets.compare_digest(self.headers.get("Authorization", ""), expected): return True
         self.send_response(401)
@@ -1380,6 +1385,8 @@ class Handler(SimpleHTTPRequestHandler):
 
 
 if __name__ == "__main__":
+    if os.environ.get("RENDER") and len(os.environ.get("ASTRALIS_PASSWORD", "")) < 16:
+        raise RuntimeError("Définis ASTRALIS_PASSWORD avec au moins 16 caractères dans les variables Render.")
     print(f"Astralis lancé sur http://{HOST}:{PORT}")
     ThreadingHTTPServer((HOST, PORT), Handler).serve_forever()
 
