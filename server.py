@@ -3,10 +3,14 @@ from __future__ import annotations
 import json
 import os
 import re
+import shutil
 import threading
 import time
 import hashlib
 import secrets
+import tempfile
+import zipfile
+from io import BytesIO
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from datetime import datetime, timedelta, timezone
@@ -25,6 +29,78 @@ cache: dict[str, tuple[float, bytes]] = {}
 cache_lock = threading.Lock()
 _HOYOLAB_RESIN_CACHE: tuple[float, dict] | None = None
 _HOYOLAB_SECRET_MEMORY: dict | None = None
+UPDATE_REPOSITORY = "Rodiidii/astralis-pocket"
+UPDATE_BRANCH = "main"
+
+def _github_json(url: str, timeout: int = 12) -> dict:
+    req = Request(url, headers={"User-Agent":"Astralis-Updater/1.0", "Accept":"application/vnd.github+json"})
+    with urlopen(req, timeout=timeout) as response:
+        if response.status != 200: raise RuntimeError(f"GitHub a répondu HTTP {response.status}.")
+        raw = response.read(2 * 1024 * 1024 + 1)
+    if len(raw) > 2 * 1024 * 1024: raise RuntimeError("Réponse GitHub trop volumineuse.")
+    return json.loads(raw)
+
+def _installed_commit_path() -> Path:
+    return Path(__file__).resolve().parent / "assets" / "user" / ".installed-commit"
+
+def _check_app_update() -> dict:
+    if os.environ.get("RENDER"):
+        return {"available":False,"managed":True,"message":"Cette instance est hébergée : son déploiement est géré par GitHub/Render."}
+    latest = _github_json(f"https://api.github.com/repos/{UPDATE_REPOSITORY}/commits/{UPDATE_BRANCH}")
+    latest_sha = str(latest.get("sha") or "")
+    if not re.fullmatch(r"[a-f0-9]{40}", latest_sha): raise RuntimeError("GitHub n’a pas fourni de version valide.")
+    marker = _installed_commit_path()
+    installed = marker.read_text(encoding="utf-8").strip() if marker.exists() else ""
+    if not installed:
+        try: installed = (Path(__file__).resolve().parent / "BUILD_ID.txt").read_text(encoding="utf-8").strip()
+        except OSError: installed = ""
+    return {"available":installed != latest_sha,"installed":installed[:12],"latest":latest_sha[:12],"sha":latest_sha,
+            "message":"Mise à jour disponible." if installed != latest_sha else "Astralis est déjà à jour."}
+
+def _apply_app_update() -> dict:
+    if os.environ.get("RENDER") or HOST != "127.0.0.1":
+        raise RuntimeError("La mise à jour directe est disponible uniquement pour l’application Windows locale.")
+    release = _check_app_update()
+    if not release.get("available"):
+        return {"updated":False,"latest":release.get("latest"),"message":"Astralis est déjà à jour."}
+    sha = release["sha"]
+    url = f"https://api.github.com/repos/{UPDATE_REPOSITORY}/zipball/{sha}"
+    req = Request(url, headers={"User-Agent":"Astralis-Updater/1.0", "Accept":"application/vnd.github+json"})
+    with urlopen(req, timeout=90) as response:
+        archive = response.read(100 * 1024 * 1024 + 1)
+    if len(archive) > 100 * 1024 * 1024: raise RuntimeError("L’archive de mise à jour dépasse 100 Mo.")
+    root = Path(__file__).resolve().parent
+    allowed = {"index.html", "server.py"}
+    skip_dirs = {".git", ".cache", "__pycache__", "assets/user", "assets/cache"}
+    staged: list[tuple[Path, Path]] = []
+    with tempfile.TemporaryDirectory(prefix="astralis-update-") as temp:
+        stage = Path(temp)
+        with zipfile.ZipFile(BytesIO(archive)) as bundle:
+            files = [name for name in bundle.namelist() if not name.endswith("/")]
+            roots = {name.split("/", 1)[0] for name in files}
+            if len(roots) != 1: raise RuntimeError("Structure de l’archive GitHub inattendue.")
+            prefix = next(iter(roots)) + "/"
+            for name in files:
+                rel = name[len(prefix):]
+                if not rel or rel.startswith("/") or ".." in Path(rel).parts: continue
+                parts = Path(rel).parts
+                if any("/".join(parts[:i]) in skip_dirs for i in range(1, len(parts) + 1)): continue
+                if parts[-1] in {".env", ".env.local"} or parts[-1].endswith((".dpapi", ".pyc")): continue
+                info = bundle.getinfo(name)
+                if info.file_size > 40 * 1024 * 1024: raise RuntimeError(f"Fichier de mise à jour trop volumineux : {parts[-1]}.")
+                target = stage.joinpath(*parts)
+                target.parent.mkdir(parents=True, exist_ok=True)
+                with bundle.open(info) as source, target.open("wb") as output: shutil.copyfileobj(source, output)
+                staged.append((target, root.joinpath(*parts)))
+        if not allowed.issubset({dest.name for _, dest in staged}):
+            raise RuntimeError("L’archive ne contient pas une application Astralis valide.")
+        for source, destination in staged:
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, destination)
+    marker = _installed_commit_path()
+    marker.parent.mkdir(parents=True, exist_ok=True)
+    marker.write_text(sha, encoding="utf-8")
+    return {"updated":True,"latest":sha[:12],"message":"Mise à jour installée. Recharge l’application pour l’appliquer."}
 
 def _hoyolab_secret_path() -> Path:
     root = Path(os.environ.get("LOCALAPPDATA") or Path.home() / "AppData" / "Local") / "Astralis"
@@ -891,7 +967,7 @@ class Handler(SimpleHTTPRequestHandler):
         global _HOYOLAB_RESIN_CACHE
         if not self._host_auth_ok(): return
         path = urlsplit(self.path).path
-        if path not in {"/api/hoyolab/credentials", "/api/hoyolab/disconnect"}:
+        if path not in {"/api/hoyolab/credentials", "/api/hoyolab/disconnect", "/api/app/update"}:
             self.send_json(404, {"error":"Route inconnue."}); return
         origin = self.headers.get("Origin", "")
         allowed_origins = {f"http://127.0.0.1:{PORT}", f"http://localhost:{PORT}"}
@@ -899,6 +975,10 @@ class Handler(SimpleHTTPRequestHandler):
             allowed_origins.add("https://" + os.environ["RENDER_EXTERNAL_HOSTNAME"])
         if origin and origin not in allowed_origins:
             self.send_json(403, {"error":"Origine refusée."}); return
+        if path == "/api/app/update":
+            try: self.send_json(200, _apply_app_update())
+            except Exception as exc: self.send_json(502, {"error":str(exc) or "La mise à jour a échoué."})
+            return
         try:
             length = int(self.headers.get("Content-Length", "0"))
             if length < 1 or length > 8192: raise ValueError("Taille de requête invalide.")
@@ -943,6 +1023,10 @@ class Handler(SimpleHTTPRequestHandler):
             return
         if path == "/health":
             self.send_json(200, {"ok": True, "message": "Astralis local data bridge active"})
+            return
+        if path == "/api/app/update":
+            try: self.send_json(200, _check_app_update())
+            except Exception as exc: self.send_json(502, {"available":False,"error":str(exc) or "Vérification des mises à jour impossible."})
             return
         if path == "/api/gi/aiynao":
             key = "gi/aiynao"
