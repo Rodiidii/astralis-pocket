@@ -3,7 +3,7 @@ import { ic } from './icons.js?v=20261028-team-buffs-78';
 
 export const GAMES = {
   hsr: { label: 'Honkai: Star Rail', short: 'Star Rail', icon: ic('hsr'), accent: '#c1a7ff', source: 'StarRailStaticAPI' },
-  gi: { label: 'Genshin Impact', short: 'Genshin', icon: ic('gi'), accent: '#e8c788', source: 'Genshin-DB + Enka.Network' },
+  gi: { label: 'Genshin Impact', short: 'Genshin', icon: ic('gi'), accent: '#e8c788', source: 'Nanoka + Genshin-DB + Enka.Network' },
   ww: { label: 'Wuthering Waves', short: 'Wuthering', icon: ic('ww'), accent: '#7ed7cf', source: 'Encore API · catalogue Beta' },
 };
 
@@ -18,6 +18,7 @@ const levelStatsCache = new Map();
 const skillCache = new Map();
 let hsrRankCache;
 let nanokaManifestPromise;
+let nanokaGiCharacterIndexPromise;
 const refreshing = new Map();
 function cacheTtl(){try{const days=Number(JSON.parse(localStorage.getItem('astralis:preferences')||'{}').dataRefreshDays)||1;return Math.max(1,Math.min(30,days))*24*60*60*1000;}catch{return 24*60*60*1000;}}
 const MAX_JSON_BYTES = 16 * 1024 * 1024;
@@ -113,6 +114,68 @@ async function mergeEnkaCharacterIndex(data) {
   return rows;
 }
 
+// Genshin-DB lags behind beta-only entries. Nanoka's versioned public index
+// contains the authoritative game IDs for these entries; merge only missing
+// records so the richer localized Genshin-DB data remains preferred.
+async function mergeNanokaGiCharacterIndex(data) {
+  const rows = Array.isArray(data) ? data.map(row => ({ ...row }))
+    : Object.entries(data || {}).map(([id, row]) => ({ id: row?.id ?? id, ...row }));
+  try {
+    if (!nanokaGiCharacterIndexPromise) nanokaGiCharacterIndexPromise = (async () => {
+      const manifest = await json('https://static.nanoka.cc/manifest.json', AbortSignal.timeout(12000));
+      const version = String(manifest?.gi?.latest || manifest?.gi?.live || '');
+      if (!version) throw new Error('Version GI Nanoka indisponible.');
+      const index = await json(`https://static.nanoka.cc/gi/${encodeURIComponent(version)}/character.json`, AbortSignal.timeout(20000));
+      return Object.entries(index || {}).map(([id, value]) => ({ id: String(id), ...value }));
+    })().catch(error => { nanokaGiCharacterIndexPromise = null; throw error; });
+    const latest = await nanokaGiCharacterIndexPromise;
+    const byId = new Map(rows.map(row => [String(row.id ?? ''), row]));
+    const byName = new Map(rows.map(row => [slugify(row.name || row.Name || ''), row]));
+    const elementMap = { Fire:'Pyro', Water:'Hydro', Ice:'Cryo', Electric:'Electro', Wind:'Anemo', Rock:'Geo', Grass:'Dendro' };
+    const weaponMap = { WEAPON_SWORD_ONE_HAND:'Sword', WEAPON_CLAYMORE:'Claymore', WEAPON_BOW:'Bow', WEAPON_CATALYST:'Catalyst', WEAPON_POLE:'Polearm' };
+    const elementFrench = { Pyro:'Pyro', Hydro:'Hydro', Cryo:'Cryo', Electro:'Électro', Anemo:'Anémo', Geo:'Géo', Dendro:'Dendro' };
+    const weaponFrench = { Sword:'Épée', Claymore:'Épée à deux mains', Bow:'Arc', Catalyst:'Catalyseur', Polearm:'Lance' };
+    for (const record of latest) {
+      const name = String(record.en || record.name || '').trim();
+      if (!name) continue;
+      const existing = byId.get(String(record.id)) || byName.get(slugify(name));
+      const element = elementMap[record.element] || record.element || '';
+      const weaponType = weaponMap[record.weapon] || '';
+      const images = { filename_icon:record.icon, filename_sideIcon:record.icon?.replace('UI_AvatarIcon_', 'UI_AvatarIcon_Side_'), filename_gachaSplash:record.icon?.replace('UI_AvatarIcon_', 'UI_Gacha_AvatarImg_') };
+      if (existing) {
+        existing.images = { ...images, ...(existing.images || {}) };
+        existing.element ||= element;
+        existing.elementText ||= elementFrench[element] || element;
+        existing.weaponType ||= weaponType;
+        existing.weaponText ||= weaponFrench[weaponType] || weaponType;
+        continue;
+      }
+      const item = {
+        id:String(record.id), sourceId:String(record.id), name, rarity:String(record.rank || '').includes('ORANGE') ? 5 : 4,
+        element, elementText:elementFrench[element] || element, weaponType, weaponText:weaponFrench[weaponType] || weaponType,
+        description:record.desc || '', images, source:'Nanoka', catalogSupplement:true,
+        preRelease:!record.release || String(record.release).startsWith('1970-'),
+      };
+      rows.push(item); byId.set(String(record.id), item); byName.set(slugify(name), item);
+    }
+  } catch (error) {
+    console.info('Index Genshin Nanoka indisponible; catalogues existants conservés.', error?.message || error);
+  }
+  return rows;
+}
+
+async function supplementCatalog(game, category, items) {
+  if (game !== 'gi' || category !== 'character') return items;
+  const merged = await mergeNanokaGiCharacterIndex(items);
+  const result = ensureAnnouncedCharacters(game, category, merged.map(item => item._id ? item : normalize(game, category, item, item.id)));
+  if (result.length !== items.length) {
+    const savedAt = Date.now();
+    catalogCache.set(`studio64:${game}:${category}`, { items:result, savedAt });
+    putLocal('cache', `catalog:studio64:${game}:${category}`, { items:result, savedAt, source:'Nanoka + catalogue principal' }).catch(() => {});
+  }
+  return result;
+}
+
 function ensureAnnouncedCharacters(game,category,items){if(game!=='gi')return items;const officialArt='/assets/images/mitya-splash.png';if(category==='character'&&!items.some(x=>String(x._name||x.name||'').toLowerCase()==='mitya'))items.push(normalize('gi','character',{id:'mitya-preview',name:'Mitya',rarity:5,element:'Electro',elementText:'Électro',weaponType:'Catalyst',weaponText:'Catalyseur',version:'7.2',preRelease:true,images:{cover1:officialArt,portrait:officialArt,image:officialArt,filename_icon:'UI_AvatarIcon_Mitya',filename_gachaSplash:'UI_Gacha_AvatarImg_Mitya',mihoyo_icon:'https://upload-os-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Mitya.png',mihoyo_sideIcon:'https://upload-os-bbs.mihoyo.com/game_record/genshin/character_side_icon/UI_AvatarIcon_Side_Mitya.png'},title:'Rules Set at Naught',constellation:'Nodus Gordianus',substatType:'FIGHT_PROP_CRITICAL_HURT',substatText:'DGT CRIT',description:'Personnage annoncé en version 7.2. Fiche de kit de bêta v7.1.53, avec valeurs susceptibles de changer avant la sortie.'},'mitya-preview'));if(category==='character'){const m=items.find(x=>String(x._name||x.name||'').toLowerCase()==='mitya');if(m&&(m.preRelease||m._id==='mitya-preview')){m.preRelease=true;m.version='7.2';m.element='Electro';m.elementText='Électro';m.weaponType='Catalyst';m.weaponText='Catalyseur';m.images={...(m.images||{}),cover1:officialArt,portrait:officialArt,image:officialArt,filename_icon:'UI_AvatarIcon_Mitya',filename_gachaSplash:'UI_Gacha_AvatarImg_Mitya'};m.title='Rules Set at Naught';m.constellation='Nodus Gordianus';m.substatType='FIGHT_PROP_CRITICAL_HURT';m.substatText='DGT CRIT';m.description='Personnage annoncé en version 7.2. Fiche de kit de bêta v7.1.53, avec valeurs susceptibles de changer avant la sortie.';}}if(category==='weapon'&&!items.some(x=>String(x._name||x.name||'').toLowerCase()==='starsealed edict'))items.push(normalize('gi','weapon',{id:'starsealed-edict-preview',name:'Starsealed Edict',rarity:5,weaponType:'Catalyst',weaponText:'Catalyseur',version:'7.2',preRelease:true,images:{icon:'/assets/images/weapon-preview-catalyst.svg',mihoyo_icon:'/assets/images/weapon-preview-catalyst.svg'},description:'Nouveau catalyseur 5★ présenté dans les informations de la version 7.2. Le visuel actuel est un repère provisoire; statistiques, passif, icône officielle et détails de bannière : en cours d’informations.'},'starsealed-edict-preview'));return items;}
 
 async function json(url, signal) {
@@ -144,7 +207,7 @@ export async function catalog(game, category, { force = false } = {}) {
   const key = `studio64:${game}:${category}`;
   const cached = catalogCache.get(key);
   const ttl=cacheTtl();
-  if (!force && cached && Date.now() - cached.savedAt < ttl) return ensureAnnouncedCharacters(game,category,cached.items);
+  if (!force && cached && Date.now() - cached.savedAt < ttl) return supplementCatalog(game,category,cached.items);
   if (!force && cached?.pending) return cached.pending;
   if (!force) {
     try {
@@ -163,7 +226,7 @@ export async function catalog(game, category, { force = false } = {}) {
           }).catch(() => {}).finally(() => refreshing.delete(key));
           refreshing.set(key, refresh);
         }
-        return ensureAnnouncedCharacters(game,category,saved.items);
+        return supplementCatalog(game,category,saved.items);
       }
     } catch { /* Cache absente : lecture réseau ci-dessous. */ }
   }
@@ -217,7 +280,10 @@ async function fetchCatalog(game, category, force) {
     } else data = await json(`/data/${game}/${category}${force ? '?refresh=1' : ''}`, AbortSignal.timeout(30000));
   } else if (game === 'ww' && category==='material') data=await json('assets/data/ww-items.json',AbortSignal.timeout(30000));
   else data = await json(`/data/${game}/${category}${force || game === 'ww' ? '?refresh=1' : ''}`, AbortSignal.timeout(30000));
-    if (game === 'gi' && category === 'character') data = await mergeEnkaCharacterIndex(data);
+    if (game === 'gi' && category === 'character') {
+      data = await mergeEnkaCharacterIndex(data);
+      data = await mergeNanokaGiCharacterIndex(data);
+    }
     const entries = Array.isArray(data) ? data.map((value, index) => [value?.id ?? index, value]) : Object.entries(data || {});
     const items = ensureAnnouncedCharacters(game,category,entries.map(([id, value]) => normalize(game, category, value, id))
       .filter(item => item._name && item._name !== 'Sans nom' && !/^\s*\.{2,}\s*$/.test(item._name)));

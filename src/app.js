@@ -1,4 +1,4 @@
-import { GAMES, catalog, characterDetails, imageSet, splashImage, skillList, equipmentImage, frenchTerm, setBonuses, levelStatsFor } from './data.js?v=20261102-nanoka-manifest-2';
+import { GAMES, catalog, characterDetails, imageSet, splashImage, skillList, equipmentImage, frenchTerm, setBonuses, levelStatsFor } from './data.js?v=20261104-nanoka-gi-catalog-1';
 import * as Store from './store.js?v=20261028-team-buffs-78';
 import * as Local from './persistence.js?v=20261028-team-buffs-78';
 import { ic, stars, emblemIcon } from './icons.js?v=20261028-team-buffs-78';
