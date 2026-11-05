@@ -9,26 +9,17 @@
   <meta name="apple-mobile-web-app-title" content="Astralis">
   <meta name="description" content="Astralis — ton atelier de collection, d’équipes et de builds pour Honkai: Star Rail, Genshin Impact et Wuthering Waves.">
   <title>Astralis — Atelier de builds</title>
-  <link rel="stylesheet" href="styles.css?v=20261031-companion-row-3">
-  <link rel="stylesheet" href="design.css?v=20261031-restore-layout-1">
-  <link rel="stylesheet" href="character-theme.css?v=20261031-theme-media-fix-1">
-  <link rel="stylesheet" href="assistant.css?v=20261101-farm-calendar-ui-1">
-  <link rel="stylesheet" href="dashboard-polish.css?v=20261031-restored-pages-2">
-  <link rel="stylesheet" href="binder.css?v=20261101-preview-all-1">
+  <link rel="stylesheet" href="legacy-structure.css?v=2">
   <link rel="stylesheet" href="booster-effects.css?v=20261101-card-model-2">
-  <link rel="stylesheet" href="booster-ui.css?v=20261101-booster-quests-1">
   <link rel="stylesheet" href="card-polish.css?v=20261103-model-exact-1">
   <link rel="stylesheet" href="card-dopamine.css?v=20261103-model-exact-1">
   <link rel="stylesheet" href="card-tcg.css?v=20261103-model-exact-1">
-  <link rel="stylesheet" href="site-refinement.css?v=20261102-live-ui-3">
-  <link rel="stylesheet" href="experience-refresh.css?v=20261102-dashboard-return-3">
-  <link rel="stylesheet" href="dashboard-analytics.css?v=20261102-equipment-welcome-2">
   <link rel="stylesheet" href="card-display.css?v=20261103-static-binder-1">
+  <link rel="stylesheet" href="astralis-ui.css?v=2">
+  <link rel="stylesheet" href="build-studio.css?v=20261105-1">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="assets/app-icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/app-icon.svg">
-  <link rel="stylesheet" href="app-shell.css?v=20261104-splash-banner-mobile-1">
-  <link rel="stylesheet" href="astralis-modern.css?v=20261104-modern-2">
 </head>
 <body>
   <div id="app"></div>
@@ -55,11 +46,13 @@
       setTimeout(function () { show('Aucun contenu affich\u00e9 apr\u00e8s 4 secondes : le script principal (src/app.js) ne s\u2019est pas ex\u00e9cut\u00e9.'); }, 4000);
     })();
   </script>
+  <script src="astralis-fx.js?v=1"></script>
   <script src="card-art-index.js?v=20261103-curated-art-1"></script>
   <script type="module" src="src/app.js?v=20261104-nanoka-gi-catalog-1"></script>
   <script>if('serviceWorker'in navigator&&(location.protocol==='https:'||['localhost','127.0.0.1'].includes(location.hostname)))addEventListener('load',()=>navigator.serviceWorker.register('/sw.js').catch(()=>{}));</script>
 </body>
 </html>
+
 
 
 
