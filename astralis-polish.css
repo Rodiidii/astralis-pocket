@@ -1,0 +1,29 @@
+/* Astralis visual polish — rounded controls and compact five-piece build layout */
+:root{--control-radius:14px;--control-border:color-mix(in srgb,var(--line,#ffffff24) 82%,transparent)}
+.app-frame button:not(.icon-button):not(.round-action):not([data-binder-own]):not(.binder-view-scrim):not(.binder-flip-card):not(.theme-option):not(.team-member-icon),
+.app-frame [role="button"]:not(.binder-card):not(.binder-slot):not(.binder-flip-card){border-radius:var(--control-radius)}
+.app-frame button,.app-frame a,.app-frame input,.app-frame select,.app-frame textarea{transition:background-color .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease,transform .18s ease}
+.app-frame button:focus-visible,.app-frame a:focus-visible,.app-frame input:focus-visible,.app-frame select:focus-visible,.app-frame textarea:focus-visible{outline:2px solid color-mix(in srgb,var(--accent,#b7a0f5) 76%,white 10%);outline-offset:2px}
+.app-frame button:not(.icon-button):not(.round-action):hover{border-color:color-mix(in srgb,var(--accent,#b7a0f5) 44%,var(--line,#ffffff24))}
+.app-frame[data-theme-section="builds"] .build-artifact-grid{display:grid;grid-template-columns:repeat(5,minmax(178px,1fr));gap:10px;padding:0 18px 18px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin}
+.app-frame[data-theme-section="builds"] .build-artifact-piece{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-content:start;align-items:start;gap:7px;min-width:0;padding:9px;border-radius:14px;overflow:hidden}
+.app-frame[data-theme-section="builds"] .build-artifact-piece legend{grid-column:1/-1;padding:0 4px;font-size:12px;font-weight:800;letter-spacing:.06em}
+.app-frame[data-theme-section="builds"] .build-artifact-piece .image-picker-field{grid-column:1/-1;min-width:0;gap:4px}
+.app-frame[data-theme-section="builds"] .build-artifact-piece .image-picker-field>span{font-size:9px}
+.app-frame[data-theme-section="builds"] .build-artifact-piece .image-picker summary{min-height:34px;padding:3px 7px;gap:6px;font-size:10px}
+.app-frame[data-theme-section="builds"] .build-artifact-piece .image-picker-thumb{width:27px;height:27px;flex:none}
+.app-frame[data-theme-section="builds"] .build-artifact-piece .build-piece-visual{grid-column:1;width:100%;height:68px;min-height:68px;border-radius:10px}
+.app-frame[data-theme-section="builds"] .build-artifact-piece .build-piece-visual .build-piece-image{width:100%;height:100%;padding:4px;object-fit:contain}
+.app-frame[data-theme-section="builds"] .build-artifact-piece .build-piece-upload{font-size:9px}
+.app-frame[data-theme-section="builds"] .build-artifact-piece .build-piece-name{grid-column:2;align-self:center;min-width:0;font-size:11px;line-height:1.2;overflow-wrap:anywhere}
+.app-frame[data-theme-section="builds"] .build-artifact-piece>label{display:grid;gap:3px;min-width:0;margin:0;font-size:9px;line-height:1.2;color:var(--muted,#aaa)}
+.app-frame[data-theme-section="builds"] .build-artifact-piece>label:first-of-type{grid-column:1/-1}
+.app-frame[data-theme-section="builds"] .build-artifact-piece .build-stat-input{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(48px,.9fr);gap:4px;min-width:0}
+.app-frame[data-theme-section="builds"] .build-artifact-piece .build-stat-input select,.app-frame[data-theme-section="builds"] .build-artifact-piece .build-stat-input input{width:100%;min-width:0;height:30px;padding:0 5px;border-radius:8px;font-size:10px}
+.app-frame[data-theme-section="builds"] .build-artifact-piece .build-stat-input select{overflow:hidden;text-overflow:ellipsis}
+.app-frame[data-theme-section="builds"] .build-artifact-piece .build-stat-input input{padding-inline:6px}
+.app-frame[data-theme-section="builds"] .build-artifact-piece .build-piece-upload input{max-width:100%;font-size:9px}
+.app-frame[data-theme-section="builds"] .build-editor{overflow:visible}
+.app-frame .tcg-card--static .tcg-card__art img{object-position:center 24%}
+@media(max-width:900px){.app-frame[data-theme-section="builds"] .build-artifact-grid{grid-template-columns:repeat(5,minmax(168px,1fr));padding-inline:12px}.app-frame[data-theme-section="builds"] .build-artifact-piece{padding:8px}}
+@media(max-width:640px){.app-frame[data-theme-section="builds"] .build-artifact-grid{grid-template-columns:repeat(5,minmax(158px,1fr));gap:8px;overflow-x:auto;scroll-snap-type:x proximity}.app-frame[data-theme-section="builds"] .build-artifact-piece{scroll-snap-align:start}.app-frame[data-theme-section="builds"] .build-section-title{margin-inline:12px}}

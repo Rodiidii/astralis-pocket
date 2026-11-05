@@ -1,0 +1,93 @@
+/* Astralis motion library: one-shot transforms, mostly opacity/transform for smooth rendering. */
+:root{--motion-time:220ms}
+.app-frame button:hover{animation:asButtonLift 220ms ease-out both}
+.app-frame .catalog-card:hover,.app-frame .unit-panel:hover{animation:asCardLift 260ms cubic-bezier(.2,.7,.2,1) both}
+.app-frame .build-artifact-piece:focus-within{animation:asPanelReveal 280ms ease-out both}
+.app-frame .binder-card:hover{animation:asCardLean 280ms ease-out both}
+.app-frame .tcg-card--fx:hover{animation:asCardGlint 700ms ease-out both}
+.app-frame .binder-copy-count,.app-frame .binder-preview-label{animation:asBadgePulse 500ms ease-out both}
+.app-frame .theme-option:hover,.app-frame .image-picker-option:hover{animation:asChipPop 180ms ease-out both}
+.app-frame .toast,.app-frame [role="status"]{animation:asToastIn 280ms cubic-bezier(.2,.8,.2,1) both}
+.app-frame .pref-group[open]>.pref-group-grid{animation:asFadeRise 240ms ease-out both}
+.app-frame .dashboard-metrics article,.app-frame .dashboard-tools>*{animation:asSoftPop 360ms ease-out both}
+.app-frame .build-picker-avatar,.app-frame .enka-avatar-icon{animation:asIconBloom 420ms cubic-bezier(.2,.8,.2,1) both}
+.app-frame .news-card,.app-frame .lore-roster-card{animation:asListEnter 300ms ease-out both}
+.app-frame .calendar-day.is-selected,.app-frame .event-calendar-day.active{animation:asCalendarSelect 250ms ease-out both}
+.app-frame .search-box:focus-within,.app-frame [data-image-picker-search]:focus{animation:asSearchFocus 220ms ease-out both}
+.app-frame .button-primary:active,.app-frame button:active{animation:asButtonPress 130ms ease-out both}
+.app-frame .binder-view-dialog{animation:asModalIn 300ms cubic-bezier(.2,.8,.2,1) both}
+.app-frame .tcg-card--legend:hover,.app-frame .tcg-card--aeon:hover{animation:asRewardBurst 800ms ease-out both}
+.app-frame .birthday-card:hover img,.app-frame .profile-celestia-shot:hover img{animation:asImageZoom 320ms ease-out both}
+.app-frame .build-talent-icon,.app-frame .build-skill-icon{animation:asSkillPop 300ms cubic-bezier(.2,.8,.2,1) both}
+.app-frame .wish-savings-column>i,.app-frame .progress-fill{animation:asMeterFill 550ms ease-out both}
+.app-frame .daily-wheel-avatar{animation:asAvatarPulse 2.8s ease-in-out infinite}
+.app-frame .assistant-dash-avatar{animation:asSoftGlow 3.6s ease-in-out infinite}
+@keyframes asFadeRise{0%{opacity:0;transform:translate3d(0,10px,0) scale(.985)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asFadeDrop{0%{opacity:0;transform:translate3d(0,-9px,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asSoftPop{0%{opacity:0;transform:translate3d(0,6px,0) scale(.94)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asSlideReveal{0%{opacity:0;transform:translate3d(-12px,0,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asBlurFocus{0%{opacity:0;transform:translate3d(12px,0,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asTiltSettle{0%{opacity:0;transform:rotate(-2deg) scale(.97)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asScaleSettle{0%{opacity:0;transform:rotate(2deg) scale(.97)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asFlipHint{0%{opacity:0;transform:translate3d(0,4px,0) scale(.92)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asRibbonIn{0%{opacity:0;transform:translate3d(0,10px,0) scale(.985)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asIconBloom{0%{opacity:0;transform:translate3d(0,-9px,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asButtonPress{0%{opacity:0;transform:translate3d(0,6px,0) scale(.94)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asButtonLift{0%{opacity:0;transform:translate3d(-12px,0,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asButtonNudge{0%{opacity:0;transform:translate3d(12px,0,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asButtonShine{0%{opacity:0;transform:rotate(-2deg) scale(.97)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asCardLift{0%{opacity:0;transform:rotate(2deg) scale(.97)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asCardLean{0%{opacity:0;transform:translate3d(0,4px,0) scale(.92)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asCardGlint{0%{opacity:0;transform:translate3d(0,10px,0) scale(.985)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asCardSettle{0%{opacity:0;transform:translate3d(0,-9px,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asPanelReveal{0%{opacity:0;transform:translate3d(0,6px,0) scale(.94)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asPanelShine{0%{opacity:0;transform:translate3d(-12px,0,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asTabUnderline{0%{opacity:0;transform:translate3d(12px,0,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asChipPop{0%{opacity:0;transform:rotate(-2deg) scale(.97)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asBadgePulse{0%{opacity:0;transform:rotate(2deg) scale(.97)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asBadgeTurn{0%{opacity:0;transform:translate3d(0,4px,0) scale(.92)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asToastIn{0%{opacity:0;transform:translate3d(0,10px,0) scale(.985)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asToastLife{0%{opacity:0;transform:translate3d(0,-9px,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asAvatarPulse{0%{opacity:0;transform:translate3d(0,6px,0) scale(.94)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asImageDrift{0%{opacity:0;transform:translate3d(-12px,0,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asImageZoom{0%{opacity:0;transform:translate3d(12px,0,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asImageFocus{0%{opacity:0;transform:rotate(-2deg) scale(.97)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asSkillPop{0%{opacity:0;transform:rotate(2deg) scale(.97)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asSkillRing{0%{opacity:0;transform:translate3d(0,4px,0) scale(.92)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asMeterFill{0%{opacity:0;transform:translate3d(0,10px,0) scale(.985)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asProgressSweep{0%{opacity:0;transform:translate3d(0,-9px,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asChartDraw{0%{opacity:0;transform:translate3d(0,6px,0) scale(.94)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asBarRise{0%{opacity:0;transform:translate3d(-12px,0,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asCalendarMark{0%{opacity:0;transform:translate3d(12px,0,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asCalendarSelect{0%{opacity:0;transform:rotate(-2deg) scale(.97)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asCalendarSpan{0%{opacity:0;transform:rotate(2deg) scale(.97)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asListEnter{0%{opacity:0;transform:translate3d(0,4px,0) scale(.92)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asListShift{0%{opacity:0;transform:translate3d(0,10px,0) scale(.985)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asSearchFocus{0%{opacity:0;transform:translate3d(0,-9px,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asSearchClear{0%{opacity:0;transform:translate3d(0,6px,0) scale(.94)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asFieldFocus{0%{opacity:0;transform:translate3d(-12px,0,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asFieldValid{0%{opacity:0;transform:translate3d(12px,0,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asFieldInvalid{0%{opacity:0;transform:rotate(-2deg) scale(.97)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asModalIn{0%{opacity:0;transform:rotate(2deg) scale(.97)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asModalOut{0%{opacity:0;transform:translate3d(0,4px,0) scale(.92)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asTooltipIn{0%{opacity:0;transform:translate3d(0,10px,0) scale(.985)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asTooltipOut{0%{opacity:0;transform:translate3d(0,-9px,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asScrollHint{0%{opacity:0;transform:translate3d(0,6px,0) scale(.94)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asLoadingSweep{0%{opacity:0;transform:translate3d(-12px,0,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asSpinner{0%{opacity:0;transform:translate3d(12px,0,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asSkeleton{0%{opacity:0;transform:rotate(-2deg) scale(.97)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asConfetti{0%{opacity:0;transform:rotate(2deg) scale(.97)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asStarTwinkle{0%{opacity:0;transform:translate3d(0,4px,0) scale(.92)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asOrbFloat{0%{opacity:0;transform:translate3d(0,10px,0) scale(.985)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asAmbientDrift{0%{opacity:0;transform:translate3d(0,-9px,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asSoftGlow{0%{opacity:0;transform:translate3d(0,6px,0) scale(.94)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asCursorParallax{0%{opacity:0;transform:translate3d(-12px,0,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asFlipCard{0%{opacity:0;transform:translate3d(12px,0,0) scale(.99)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asRewardBurst{0%{opacity:0;transform:rotate(-2deg) scale(.97)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asPageTransition{0%{opacity:0;transform:rotate(2deg) scale(.97)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@keyframes asSectionWipe{0%{opacity:0;transform:translate3d(0,4px,0) scale(.92)}65%{opacity:1;transform:translate3d(0,-1px,0) scale(1.008)}100%{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){html *{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+html[data-motion="reduced"] *{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+html[data-motion="reduced"]{--motion-time:1ms}
+@keyframes asSoftGlow{0%,100%{opacity:1;transform:scale(1);filter:none}50%{opacity:1;transform:scale(1.035);filter:drop-shadow(0 0 10px color-mix(in srgb,var(--accent,#b7a0f5) 30%,transparent))}}
+@keyframes asAvatarPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:1;transform:scale(1.04)}}
