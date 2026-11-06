@@ -29,7 +29,7 @@ cache: dict[str, tuple[float, bytes]] = {}
 cache_lock = threading.Lock()
 _HOYOLAB_RESIN_CACHE: tuple[float, dict] | None = None
 _HOYOLAB_SECRET_MEMORY: dict | None = None
-UPDATE_REPOSITORY = "Rodiidii/astralis-pocket"
+UPDATE_REPOSITORY = "Rodiidii/Astralis"
 UPDATE_BRANCH = "main"
 
 def _github_json(url: str, timeout: int = 12) -> dict:
@@ -67,8 +67,8 @@ def _apply_app_update() -> dict:
     url = f"https://api.github.com/repos/{UPDATE_REPOSITORY}/zipball/{sha}"
     req = Request(url, headers={"User-Agent":"Astralis-Updater/1.0", "Accept":"application/vnd.github+json"})
     with urlopen(req, timeout=90) as response:
-        archive = response.read(100 * 1024 * 1024 + 1)
-    if len(archive) > 100 * 1024 * 1024: raise RuntimeError("L’archive de mise à jour dépasse 100 Mo.")
+        archive = response.read(500 * 1024 * 1024 + 1)
+    if len(archive) > 500 * 1024 * 1024: raise RuntimeError("L’archive de mise à jour dépasse 500 Mo.")
     root = Path(__file__).resolve().parent
     allowed = {"index.html", "server.py"}
     skip_dirs = {".git", ".cache", "__pycache__", "assets/user", "assets/cache"}
